@@ -86,9 +86,11 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),LV=["Block Level","Gram Panchayat","Line Department"];
+const ST={"Block Level":["Ramnagar-I Development Block"],"Line Department":["Food & Supply","Agriculture","Health","Land","CDPO","School Education","Bank","Animal Husbandry","Fishery"],"Gram Panchayat":["Talgachhari-I","Talgachhari-II","Haldia-I","Haldia-II","Padima-I","Padima-II","Gobra","Basantapur","Badhia"]};
+const canon=s=>{s=String(s||"").trim();for(const l in ST){const m=ST[l].find(x=>x.toLowerCase()===s.toLowerCase());if(m)return[l,m]}return[null,s]};
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const I={ph:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',ch:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',cl:'<svg viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></svg>',ck:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>'};
-let DB=null,U=null,admin=false,off=[],sch=[],level="All",cs="",sel=new Set(),got=0,tgt=null,fpMode="";
+let LOCAL=0,DB=null,U=null,admin=false,off=[],sch=[],level="All",cs="",sel=new Set(),got=0,tgt=null,fpMode="";
 const H=s=>Array.from(String(s)).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 const hid=s=>"s"+H(s),fixp=s=>{s=String(s||"").replace(/\D/g,"");return s.length===10?"91"+s:s};
 const lvl=s=>{s=String(s).toLowerCase();return s.includes("block")?LV[0]:/gram|gp|panch/.test(s)?LV[1]:LV[2]};
@@ -98,10 +100,20 @@ let tt;function toast(t){const e=$("toast");e.textContent=t;e.className="s";clea
 const sheet=h=>{$("sheet").innerHTML=h;$("ov").className="on"},closeS=()=>{$("ov").className=""};
 $("ov").onclick=e=>{if(e.target.id==="ov")closeS()};
 
+/* local mode: used when the page is hosted outside Claude (e.g. GitHub Pages); data stays on this phone */
+function localDB(){
+  const K="sampark_v1";let d;try{d=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){d={}}
+  d.officials=d.officials||{};d.schemes=d.schemes||{};const subs={};
+  const save=()=>{try{localStorage.setItem(K,JSON.stringify(d))}catch(e){}};
+  const snap=c=>({docs:Object.entries(d[c]).map(([id,v])=>({id,data:()=>v}))});
+  const fire=c=>(subs[c]||[]).forEach(f=>f(snap(c)));
+  return{collection:c=>({onSnapshot(cb){(subs[c]=subs[c]||[]).push(cb);setTimeout(()=>cb(snap(c)),0)},async add(v){const id="o"+Date.now()+Math.random().toString(36).slice(2,7);d[c][id]=v;save();fire(c);return{id}}}),
+  doc:p=>{const[c,id]=p.split("/");return{async set(v){d[c][id]=v;save();fire(c)},async update(v){d[c][id]={...d[c][id],...v};save();fire(c)},async delete(){delete d[c][id];save();fire(c)}}}}
+}
 /* data */
 (async()=>{
   const t=setTimeout(()=>{if(!DB)$("gate").innerHTML='<div><b style="color:var(--ink)">Sign in to open Sampark</b><br>Open this link in the Claude app or browser while signed in to Claude. Ask the admin for access if you do not have it.</div>'},10000);
-  try{if(typeof claude==="undefined")return;U=await claude.use("user");DB=await claude.use("db")}catch(e){return}
+  try{if(typeof claude!=="undefined"){U=await claude.use("user");DB=await claude.use("db")}}catch(e){}if(!DB){try{DB=localDB();U={canEdit:()=>true};LOCAL=1}catch(e){return}}
   if(!DB)return;clearTimeout(t);
   admin=!!(U&&U.canEdit());$("gear").hidden=!admin;
   const fin=()=>{if(++got>=2){$("gate").style.display="none"}render()};
@@ -115,12 +127,12 @@ $("ov").onclick=e=>{if(e.target.id==="ov")closeS()};
 const sch_of=o=>o.schemes||[];
 function render(){
   const b=off.filter(o=>!cs||sch_of(o).includes(cs));
-  $("sub").textContent=cs?cs:off.length+" officials";
+  $("sub").textContent=cs?cs:LOCAL?"Saved on this phone · "+off.length+" officials":"Ramnagar-I Block · "+off.length+" officials";
   $("chips").innerHTML=[""].concat(sch).map(x=>`<button class="chip ${x===cs?"on":""}" data-sc="${esc(x)}">${x?esc(x):"All schemes"}<i>${off.filter(o=>!x||sch_of(o).includes(x)).length}</i></button>`).join("");
   $("seg").innerHTML=[["All","All"],[LV[0],"Block"],[LV[1],"Gram Panchayat"],[LV[2],"Line Dept"]].map(([v,l])=>`<button class="${v===level?"on":""}" data-lv="${v}"><b>${b.filter(o=>v==="All"||o.level===v).length}</b>${l}</button>`).join("");
   const lb=b.filter(o=>level==="All"||o.level===level);
   const fill=(id,lab,v)=>{const s=$(id),c=s.value;s.innerHTML=`<option value="">${lab}</option>`+v.map(x=>`<option>${esc(x)}</option>`).join("");if(v.includes(c))s.value=c};
-  fill("fd","All designations",uniq(lb.map(o=>o.designation)));fill("fo","All offices",uniq(lb.map(o=>o.office)));
+  fill("fd","All designations",uniq(lb.map(o=>o.designation)));fill("fo","All offices",uniq(lb.map(o=>o.office).concat(level==="All"?Object.values(ST).flat():(ST[level]||[]))));
   const d=$("fd").value,f=$("fo").value,q=$("q").value.toLowerCase();
   const s=lb.filter(o=>(!d||o.designation===d)&&(!f||o.office===f)&&(!q||(o.name+o.phone).toLowerCase().includes(q)));
   window.shownList=s;
@@ -169,28 +181,32 @@ function step(){
 const sc=(id)=>sch.map(x=>`<label class="ck"><input type="checkbox" value="${esc(x)}"> ${esc(x)}</label>`).join("")||'<span class="ds">Add a scheme first.</span>';
 $("gear").onclick=()=>manage("add");
 function manage(t){
-  const tabs=[["add","Add"],["excel","Excel"],["sch","Schemes"],["sel","Selected"]];
+  const tabs=[["add","Add"],["excel","Excel"],["sch","Schemes"],["sel","Selected"]].concat(LOCAL?[["bk","Backup"]]:[]);
   let body="";
-  if(t==="add")body=`<div class="g g2"><select id="mc">${LV.map(l=>`<option>${l}</option>`).join("")}</select><input id="mo" placeholder="Office, e.g. GP Rampur"><input id="md" placeholder="Designation"><input id="mn" placeholder="Name"><input id="mp" placeholder="Phone" inputmode="tel" style="grid-column:1/-1"></div><div class="g" id="mk">${sc()}</div><div class="fx"><button class="btn p" id="ma">Add official</button></div>`;
-  if(t==="excel")body=`<p>First sheet, columns A to F: category, office, designation, name, phone, schemes (separate several with commas). Header row optional. 10-digit numbers get 91 added.</p><input type="file" id="mx" accept=".xlsx,.xls,.csv"><div class="fx"><button class="btn" id="msamp">Load sample data</button></div>`;
+  if(t==="add")body=`<div class="g g2"><select id="mc">${LV.map(l=>`<option>${l}</option>`).join("")}</select><select id="mo"></select><input id="md" placeholder="Designation" list="dl"><datalist id="dl"><option>BDO<option>Joint BDO<option>Block Engineer<option>Assistant Engineer<option>Pradhan<option>Upa-Pradhan<option>Secretary<option>Nirman Sahayak<option>Executive Assistant<option>CDPO<option>Medical Officer<option>Agriculture Officer<option>Inspector</datalist><input id="mn" placeholder="Name"><input id="mp" placeholder="Phone" inputmode="tel" style="grid-column:1/-1"></div><div class="g" id="mk">${sc()}</div><div class="fx"><button class="btn p" id="ma">Add official</button></div>`;
+  if(t==="bk")body=`<p>Data is saved only on this phone. Save a backup file, or restore one here.</p><div class="fx"><button class="btn p" id="bkx">Save backup file</button></div><div class="g"><input type="file" id="bki" accept=".json"></div>`;
+  if(t==="excel")body=`<p>First sheet, columns A to F: category, office, designation, name, phone, schemes (separate several with commas). Use exact office names such as Talgachhari-I or Agriculture. Header row optional. 10-digit numbers get 91 added.</p><input type="file" id="mx" accept=".xlsx,.xls,.csv"><div class="fx"><button class="btn" id="msamp">Load sample data</button></div>`;
   if(t==="sch")body=`<div class="g g2" style="grid-template-columns:1fr auto"><input id="mn2" placeholder="New scheme, e.g. VBTC"><button class="btn p" id="mas">Add</button></div><div class="fx" style="flex-wrap:wrap">${sch.map(x=>`<button class="btn d" data-ds="${esc(x)}" style="flex:0 0 auto">${esc(x)} ✕</button>`).join("")||'<span class="ds">No schemes yet.</span>'}</div>`;
   if(t==="sel")body=`<p>${sel.size} official(s) selected in the list.</p><select id="ms">${sch.map(x=>`<option>${esc(x)}</option>`).join("")}</select><div class="fx"><button class="btn p" id="mad">Add to scheme</button><button class="btn" id="mrm">Remove</button></div><div class="fx"><button class="btn d" id="mdel">Delete selected officials</button></div>`;
   sheet(`<h2>Manage</h2><div class="seg" style="margin:10px 0 12px">${tabs.map(([k,l])=>`<button class="${k===t?"on":""}" data-mt="${k}">${l}</button>`).join("")}</div>${body}`);
   document.querySelectorAll("[data-mt]").forEach(b=>b.onclick=()=>manage(b.dataset.mt));
   const run=async(fn,msg)=>{try{await fn();if(msg)toast(msg)}catch(e){toast(e&&e.code==="not_granted"?"Only admins can change data.":"Could not save: "+(e&&e.message||"error"))}};
   const O=DB.collection("officials");
+  if(t==="bk"){$("bkx").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([localStorage.getItem("sampark_v1")||"{}"],{type:"application/json"}));a.download="sampark-backup.json";a.click()};
+    $("bki").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{JSON.parse(r.result);localStorage.setItem("sampark_v1",r.result);location.reload()}catch(x){toast("Not a valid backup file.")}};r.readAsText(f)}}
+  if(t==="add"){const fo=()=>{$("mo").innerHTML=ST[$("mc").value].map(x=>`<option>${esc(x)}</option>`).join("")};$("mc").onchange=fo;fo()}
   if(t==="add")$("ma").onclick=()=>{const p=fixp($("mp").value),n=$("mn").value.trim();if(!n||p.length<8){toast("Enter a name and a valid phone number.");return}
-    run(async()=>{await O.add({level:$("mc").value,office:$("mo").value.trim()||"Unassigned",designation:$("md").value.trim(),name:n,phone:p,schemes:[...document.querySelectorAll("#mk input:checked")].map(x=>x.value)});["mo","md","mn","mp"].forEach(i=>$(i).value="")},"Official added.")};
+    run(async()=>{await O.add({level:$("mc").value,office:$("mo").value.trim()||"Unassigned",designation:$("md").value.trim(),name:n,phone:p,schemes:[...document.querySelectorAll("#mk input:checked")].map(x=>x.value)});["md","mn","mp"].forEach(i=>$(i).value="")},"Official added.")};
   if(t==="excel"){
     $("mx").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>run(async()=>{
       const wb=XLSX.read(r.result,{type:"array"}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:""}),list=[];
-      rows.forEach(c=>{const p=fixp(c[4]);if(p.length<8||!c[3])return;list.push({level:lvl(String(c[0])),office:String(c[1])||"Unassigned",designation:String(c[2]),name:String(c[3]),phone:p,schemes:String(c[5]||"").split(/[,;]/).map(x=>x.trim()).filter(Boolean)})});
+      rows.forEach(c=>{const p=fixp(c[4]);if(p.length<8||!c[3])return;const [L,Of]=canon(c[1]);list.push({level:L||lvl(String(c[0])),office:Of||"Unassigned",designation:String(c[2]),name:String(c[3]),phone:p,schemes:String(c[5]||"").split(/[,;]/).map(x=>x.trim()).filter(Boolean)})});
       const ns=uniq(list.flatMap(o=>o.schemes)).filter(x=>!sch.includes(x));
       for(const x of ns)await DB.doc("schemes/"+hid(x)).set({name:x});
       for(let i=0;i<list.length;i+=10)await Promise.all(list.slice(i,i+10).map(o=>O.add(o)));
       toast(list.length+" officials imported.")});r.readAsArrayBuffer(f)};
     $("msamp").onclick=()=>run(async()=>{const S="SBM (Swachh Bharat Mission)";await DB.doc("schemes/"+hid(S)).set({name:S});
-      const d=[[LV[0],"Block Office","BDO","Anil Kumar","919800000001"],[LV[0],"Block Office","Block Engineer","Ravi Singh","919800000002"],[LV[1],"GP Rampur","Nirman Sahayak","Suresh Yadav","919800000003"],[LV[1],"GP Devpur","Nirman Sahayak","Rakesh Das","919800000005"],[LV[2],"PWD","Junior Engineer","Amit Verma","919800000006"]];
+      const d=[[LV[0],"Ramnagar-I Development Block","BDO","Anil Kumar","919800000001"],[LV[0],"Ramnagar-I Development Block","Block Engineer","Ravi Singh","919800000002"],[LV[1],"Talgachhari-I","Nirman Sahayak","Suresh Yadav","919800000003"],[LV[1],"Haldia-II","Nirman Sahayak","Rakesh Das","919800000005"],[LV[2],"Agriculture","Block Agriculture Officer","Amit Verma","919800000006"]];
       for(const x of d)await O.add({level:x[0],office:x[1],designation:x[2],name:x[3],phone:x[4],schemes:x[3]==="Amit Verma"?[]:[S]})},"Sample data added.");
   }
   if(t==="sch"){
