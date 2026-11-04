@@ -44,7 +44,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--br);box-shadow:0 0 0 
 @keyframes up{from{opacity:0;transform:translateY(8px)}}
 .av{width:44px;height:44px;border-radius:50%;color:#fff;font-weight:600;font-size:.92rem;display:grid;place-items:center;flex:0 0 auto}
 .av svg{width:20px;height:20px}
-.inf{flex:1;min-width:0}.nm{font-weight:600;letter-spacing:-.01em}.ds{color:var(--mu);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inf{flex:1;min-width:0}.nm{font-weight:600;letter-spacing:-.01em}button.nm{display:block;text-align:left;padding:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ds{color:var(--mu);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tg span{display:inline-block;font-size:.68rem;font-weight:600;color:var(--br);background:var(--soft);padding:2px 8px;border-radius:99px;margin:5px 4px 0 0}
 .ac{display:flex;gap:6px}.ac button{width:38px;height:38px;border-radius:50%;background:var(--soft);color:var(--br);display:grid;place-items:center}
 svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;width:18px;height:18px}
@@ -86,7 +87,11 @@ svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-l
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const $=id=>document.getElementById(id),LV=["Block Level","Gram Panchayat","Line Department"];
-const ST={"Block Level":["Ramnagar-I Development Block"],"Line Department":["Food & Supply","Agriculture","Health","Land","CDPO","School Education","Bank","Animal Husbandry","Fishery"],"Gram Panchayat":["Talgachhari-I","Talgachhari-II","Haldia-I","Haldia-II","Padima-I","Padima-II","Gobra","Basantapur","Badhia"]};
+const BASE={"Block Level":["Ramnagar-I Development Block"],"Line Department":["Food & Supply","Agriculture","Health","Land","CDPO","School Education","Bank","Animal Husbandry","Fishery"],"Gram Panchayat":["Talgachhari-I","Talgachhari-II","Haldia-I","Haldia-II","Padima-I","Padima-II","Gobra","Basantapur","Badhia"]};
+const DBASE={"Block Level":["BDO","Joint BDO","Block Engineer","Assistant Engineer","Executive Assistant","Block Programme Manager","Accountant","Data Entry Operator","Office Staff"],"Gram Panchayat":["Pradhan","Upa-Pradhan","Secretary","Executive Assistant","Nirman Sahayak","Sahayak","Karmadhyaksha","Data Entry Operator","GP Member"],"Line Department":["Officer-in-Charge","Medical Officer","Agriculture Officer","BL&LRO","CDPO","Sub-Inspector of Schools","Bank Manager","Livestock Development Officer","Fishery Extension Officer","Junior Engineer","Inspector","Supervisor","Clerk"]};
+let ST=JSON.parse(JSON.stringify(BASE)),customO=[],DS=JSON.parse(JSON.stringify(DBASE)),customD=[];
+const desOpts=(l,cur)=>{const v=(DS[l]||[]).slice();if(cur&&!v.includes(cur))v.push(cur);return'<option value="">Select designation</option>'+v.map(x=>`<option ${x===cur?"selected":""}>${esc(x)}</option>`).join("")+'<option value="__new">+ Add new designation…</option>'};
+async function newDes(l,cb){const n=(prompt("New designation for "+l+":")||"").trim();if(!n){cb("");return}if(!DS[l].includes(n))DS[l].push(n);try{await DB.doc("designations/"+hid(l+n)).set({name:n,level:l})}catch(e){toast("Shown here, but could not be stored.")}cb(n)}
 const canon=s=>{s=String(s||"").trim();for(const l in ST){const m=ST[l].find(x=>x.toLowerCase()===s.toLowerCase());if(m)return[l,m]}return[null,s]};
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const I={ph:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',ch:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',cl:'<svg viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></svg>',ck:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>'};
@@ -103,7 +108,7 @@ $("ov").onclick=e=>{if(e.target.id==="ov")closeS()};
 /* local mode: used when the page is hosted outside Claude (e.g. GitHub Pages); data stays on this phone */
 function localDB(){
   const K="sampark_v1";let d;try{d=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){d={}}
-  d.officials=d.officials||{};d.schemes=d.schemes||{};const subs={};
+  d.officials=d.officials||{};d.schemes=d.schemes||{};d.offices=d.offices||{};d.designations=d.designations||{};const subs={};
   const save=()=>{try{localStorage.setItem(K,JSON.stringify(d))}catch(e){}};
   const snap=c=>({docs:Object.entries(d[c]).map(([id,v])=>({id,data:()=>v}))});
   const fire=c=>(subs[c]||[]).forEach(f=>f(snap(c)));
@@ -121,6 +126,8 @@ function localDB(){
   let f1=0,f2=0;
   DB.collection("officials").onSnapshot(s=>{off=s.docs.map(d=>({id:d.id,...d.data()}));if(!f1){f1=1;fin()}else render()},er);
   DB.collection("schemes").onSnapshot(s=>{sch=s.docs.map(d=>d.data().name).filter(Boolean).sort();if(!f2){f2=1;fin()}else render()},er);
+  DB.collection("designations").onSnapshot(s=>{customD=s.docs.map(d=>({id:d.id,...d.data()}));DS=JSON.parse(JSON.stringify(DBASE));customD.forEach(d=>{if(DS[d.level]&&!DS[d.level].includes(d.name))DS[d.level].push(d.name)});render()},()=>{});
+  DB.collection("offices").onSnapshot(s=>{customO=s.docs.map(d=>({id:d.id,...d.data()}));ST=JSON.parse(JSON.stringify(BASE));customO.forEach(o=>{if(ST[o.level]&&!ST[o.level].includes(o.name))ST[o.level].push(o.name)});render()},()=>{});
 })();
 
 /* render */
@@ -132,14 +139,14 @@ function render(){
   $("seg").innerHTML=[["All","All"],[LV[0],"Block"],[LV[1],"Gram Panchayat"],[LV[2],"Line Dept"]].map(([v,l])=>`<button class="${v===level?"on":""}" data-lv="${v}"><b>${b.filter(o=>v==="All"||o.level===v).length}</b>${l}</button>`).join("");
   const lb=b.filter(o=>level==="All"||o.level===level);
   const fill=(id,lab,v)=>{const s=$(id),c=s.value;s.innerHTML=`<option value="">${lab}</option>`+v.map(x=>`<option>${esc(x)}</option>`).join("");if(v.includes(c))s.value=c};
-  fill("fd","All designations",uniq(lb.map(o=>o.designation)));fill("fo","All offices",uniq(lb.map(o=>o.office).concat(level==="All"?Object.values(ST).flat():(ST[level]||[]))));
+  fill("fd","All designations",uniq(lb.map(o=>o.designation).concat(level==="All"?Object.values(DS).flat():(DS[level]||[]))));fill("fo","All offices",uniq(lb.map(o=>o.office).concat(level==="All"?Object.values(ST).flat():(ST[level]||[]))));
   const d=$("fd").value,f=$("fo").value,q=$("q").value.toLowerCase();
   const s=lb.filter(o=>(!d||o.designation===d)&&(!f||o.office===f)&&(!q||(o.name+o.phone).toLowerCase().includes(q)));
   window.shownList=s;
   const g={};s.forEach(o=>(g[o.office]=g[o.office]||[]).push(o));
   let n=0;
-  $("list").innerHTML=s.length?`<div class="lh"><span>${s.length} officials</span><button data-act="all">${s.every(o=>sel.has(o.id))?"Deselect all":"Select all"}</button></div>`+Object.keys(g).sort().map(k=>`<div class="og">${esc(k)}</div>`+g[k].sort((a,b)=>a.name.localeCompare(b.name)).map(o=>{const on=sel.has(o.id);return`<div class="card ${on?"on":""}" style="animation-delay:${Math.min(n++,10)*25}ms"><button class="av" data-act="tog" data-id="${o.id}" style="background:hsl(${H(o.name)%360} 42% 40%)">${on?I.ck:esc(ini(o.name))}</button><div class="inf"><div class="nm">${esc(o.name)}</div><div class="ds">${esc(o.designation)} · +${esc(o.phone)}</div><div class="tg">${sch_of(o).map(x=>`<span>${esc(x)}</span>`).join("")}</div></div><div class="ac"><button data-act="call" data-id="${o.id}" aria-label="Call">${I.ph}</button><button data-act="chat" data-id="${o.id}" aria-label="WhatsApp">${I.ch}</button><button data-act="file" data-id="${o.id}" aria-label="Send file">${I.cl}</button></div></div>`}).join("")).join(""):`<div class="empty"><b>No officials here yet</b>${admin?'Tap Manage to add or import from Excel.':'The admin has not added anyone to this view.'}</div>`;
-  $("bar").innerHTML=sel.size?`<div class="bar"><span>${sel.size} selected</span><button class="x" data-act="clr">Clear</button><button class="go" data-act="bulk">Send</button></div>`:"";
+  $("list").innerHTML=s.length?`<div class="lh"><span>${s.length} officials</span><button data-act="all">${s.every(o=>sel.has(o.id))?"Deselect all":"Select all"}</button></div>`+Object.keys(g).sort().map(k=>`<div class="og">${esc(k)}</div>`+g[k].sort((a,b)=>a.name.localeCompare(b.name)).map(o=>{const on=sel.has(o.id);return`<div class="card ${on?"on":""}" style="animation-delay:${Math.min(n++,10)*25}ms"><button class="av" data-act="tog" data-id="${o.id}" style="background:hsl(${H(o.name)%360} 42% 40%)">${on?I.ck:esc(ini(o.name))}</button><div class="inf">${admin?`<button class="nm" data-act="edit" data-id="${o.id}">${esc(o.name)}</button>`:`<div class="nm">${esc(o.name)}</div>`}<div class="ds">${esc(o.designation)} · +${esc(o.phone)}</div><div class="tg">${sch_of(o).map(x=>`<span>${esc(x)}</span>`).join("")}</div></div><div class="ac"><button data-act="call" data-id="${o.id}" aria-label="Call">${I.ph}</button><button data-act="chat" data-id="${o.id}" aria-label="WhatsApp">${I.ch}</button><button data-act="file" data-id="${o.id}" aria-label="Send file">${I.cl}</button></div></div>`}).join("")).join(""):`<div class="empty"><b>No officials here yet</b>${admin?'Tap Manage to add or import from Excel.':'The admin has not added anyone to this view.'}</div>`;
+  $("bar").innerHTML=sel.size?`<div class="bar"><span>${sel.size} selected</span><button class="x" data-act="clr">Clear</button>${admin?'<button class="x" data-act="asg">Scheme</button>':""}<button class="go" data-act="bulk">Send</button></div>`:"";
 }
 $("q").oninput=render;$("fd").onchange=$("fo").onchange=render;
 document.addEventListener("click",e=>{
@@ -153,6 +160,8 @@ document.addEventListener("click",e=>{
   else if(a==="call"){wa(o,"");toast("Chat opened. Tap the call icon in WhatsApp.")}
   else if(a==="file"){tgt=o;fpMode="one";$("fp").click()}
   else if(a==="bulk")bulk();
+  else if(a==="asg")manage("sel");
+  else if(a==="edit"&&o)editOff(o);
 });
 const wa=(o,t)=>window.open("https://wa.me/"+o.phone+(t?"?text="+encodeURIComponent(t):""),"_blank","noopener");
 async function share(o,t,fl){
@@ -177,34 +186,52 @@ function step(){
   $("s3").onclick=()=>{bi++;step()};$("s4").onclick=closeS;
 }
 
+function editOff(o){
+  const cur=sch_of(o);
+  sheet(`<h2>Edit official</h2><div class="g g2"><select id="ec">${LV.map(l=>`<option ${l===o.level?"selected":""}>${l}</option>`).join("")}</select><select id="eo"></select><select id="ed"></select><input id="en" placeholder="Name" value="${esc(o.name)}"><input id="ep" placeholder="Phone" inputmode="tel" value="${esc(o.phone)}" style="grid-column:1/-1"></div><div class="lbl">Schemes</div><div class="g" id="ek">${sch.map(x=>`<label class="ck"><input type="checkbox" value="${esc(x)}" ${cur.includes(x)?"checked":""}> ${esc(x)}</label>`).join("")||'<span class="ds">No schemes yet. Add one in Manage.</span>'}</div><div class="fx"><button class="btn d" id="edl">Delete</button><button class="btn p" id="esv">Save</button></div>`);
+  const fd=v=>{$("ed").innerHTML=desOpts($("ec").value,v)};$("ed").onchange=()=>{if($("ed").value==="__new")newDes($("ec").value,x=>fd(x||o.designation))};const fo=()=>{fd(o.designation);const l=$("ec").value,v=ST[l].slice();if(l===o.level&&!v.includes(o.office))v.push(o.office);$("eo").innerHTML=v.map(x=>`<option ${x===o.office?"selected":""}>${esc(x)}</option>`).join("")};$("ec").onchange=fo;fo();
+  $("esv").onclick=async()=>{const p=fixp($("ep").value),n=$("en").value.trim();if(!n||p.length<8){toast("Enter a name and a valid phone number.");return}
+    try{await DB.doc("officials/"+o.id).update({level:$("ec").value,office:$("eo").value,designation:$("ed").value.trim(),name:n,phone:p,schemes:[...document.querySelectorAll("#ek input:checked")].map(x=>x.value)});closeS();toast("Saved.")}catch(e){toast(e&&e.code==="not_granted"?"Only admins can change data.":"Could not save.")}};
+  $("edl").onclick=async()=>{if(!confirm("Delete "+o.name+"?"))return;try{await DB.doc("officials/"+o.id).delete();sel.delete(o.id);closeS()}catch(e){toast("Could not delete.")}};
+}
 /* admin */
+function tpl(){try{
+  const wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([["Category","Office","Designation","Name","Phone","Schemes"],["Gram Panchayat","Talgachhari-I","Nirman Sahayak","EXAMPLE - delete this row","9800000000","SBM (Swachh Bharat Mission), VBTC"]]);
+  ws["!cols"]=[16,30,26,26,16,40].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,ws,"Officials");
+  const mx=Math.max(...LV.map(l=>ST[l].length)),o=[LV.slice()];for(let i=0;i<mx;i++)o.push(LV.map(l=>ST[l][i]||""));
+  const w2=XLSX.utils.aoa_to_sheet(o);w2["!cols"]=[30,30,30].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,w2,"Valid offices");
+  XLSX.writeFile(wb,"Sampark-template.xlsx");toast("Template downloaded.")}catch(e){toast("Could not create the template here.")}}
 const sc=(id)=>sch.map(x=>`<label class="ck"><input type="checkbox" value="${esc(x)}"> ${esc(x)}</label>`).join("")||'<span class="ds">Add a scheme first.</span>';
 $("gear").onclick=()=>manage("add");
 function manage(t){
-  const tabs=[["add","Add"],["excel","Excel"],["sch","Schemes"],["sel","Selected"]].concat(LOCAL?[["bk","Backup"]]:[]);
+  const tabs=[["add","Add"],["excel","Excel"],["off","Offices"],["sch","Schemes"],["sel","Assign"]].concat(LOCAL?[["bk","Backup"]]:[]);
   let body="";
-  if(t==="add")body=`<div class="g g2"><select id="mc">${LV.map(l=>`<option>${l}</option>`).join("")}</select><select id="mo"></select><input id="md" placeholder="Designation" list="dl"><datalist id="dl"><option>BDO<option>Joint BDO<option>Block Engineer<option>Assistant Engineer<option>Pradhan<option>Upa-Pradhan<option>Secretary<option>Nirman Sahayak<option>Executive Assistant<option>CDPO<option>Medical Officer<option>Agriculture Officer<option>Inspector</datalist><input id="mn" placeholder="Name"><input id="mp" placeholder="Phone" inputmode="tel" style="grid-column:1/-1"></div><div class="g" id="mk">${sc()}</div><div class="fx"><button class="btn p" id="ma">Add official</button></div>`;
+  if(t==="add")body=`<div class="g g2"><select id="mc">${LV.map(l=>`<option>${l}</option>`).join("")}</select><select id="mo"></select><select id="md"></select><input id="mn" placeholder="Name"><input id="mp" placeholder="Phone" inputmode="tel" style="grid-column:1/-1"></div><div class="g" id="mk">${sc()}</div><div class="fx"><button class="btn p" id="ma">Add official</button></div>`;
+  if(t==="off")body=`<p>Add an office under a level. It then appears in the office lists and is recognised in Excel imports.</p><div class="g g2"><select id="fl">${LV.map(l=>`<option>${l}</option>`).join("")}</select><input id="fn" placeholder="Office name, e.g. Police Station"></div><div class="fx"><button class="btn p" id="fa">Add office</button></div><div class="lbl">Added by you</div><div class="fx" style="flex-wrap:wrap">${customO.map(o=>`<button class="btn d" data-do="${o.id}" style="flex:0 0 auto">${esc(o.name)} · ${esc(o.level.split(" ")[0])} ✕</button>`).join("")||'<span class="ds">None yet.</span>'}</div>`;
   if(t==="bk")body=`<p>Data is saved only on this phone. Save a backup file, or restore one here.</p><div class="fx"><button class="btn p" id="bkx">Save backup file</button></div><div class="g"><input type="file" id="bki" accept=".json"></div>`;
-  if(t==="excel")body=`<p>First sheet, columns A to F: category, office, designation, name, phone, schemes (separate several with commas). Use exact office names such as Talgachhari-I or Agriculture. Header row optional. 10-digit numbers get 91 added.</p><input type="file" id="mx" accept=".xlsx,.xls,.csv"><div class="fx"><button class="btn" id="msamp">Load sample data</button></div>`;
+  if(t==="excel")body=`<p>First sheet, columns A to F: category, office, designation, name, phone, schemes (separate several with commas). Use exact office names such as Talgachhari-I or Agriculture. Header row optional. 10-digit numbers get 91 added.</p><input type="file" id="mx" accept=".xlsx,.xls,.csv"><div class="fx"><button class="btn p" id="mtpl">Download Excel template</button><button class="btn" id="msamp">Load sample data</button></div>`;
   if(t==="sch")body=`<div class="g g2" style="grid-template-columns:1fr auto"><input id="mn2" placeholder="New scheme, e.g. VBTC"><button class="btn p" id="mas">Add</button></div><div class="fx" style="flex-wrap:wrap">${sch.map(x=>`<button class="btn d" data-ds="${esc(x)}" style="flex:0 0 auto">${esc(x)} ✕</button>`).join("")||'<span class="ds">No schemes yet.</span>'}</div>`;
-  if(t==="sel")body=`<p>${sel.size} official(s) selected in the list.</p><select id="ms">${sch.map(x=>`<option>${esc(x)}</option>`).join("")}</select><div class="fx"><button class="btn p" id="mad">Add to scheme</button><button class="btn" id="mrm">Remove</button></div><div class="fx"><button class="btn d" id="mdel">Delete selected officials</button></div>`;
+  if(t==="sel")body=`<select id="ms">${sch.map(x=>`<option>${esc(x)}</option>`).join("")}</select><input id="mq" placeholder="Search officials…" style="margin-top:8px"><div class="fx" style="align-items:center"><span class="ds" id="mc2"></span><button class="btn" id="msa" style="flex:0 0 auto">Select all shown</button></div><div id="mlist" style="max-height:34vh;overflow:auto;margin-top:6px"></div><div class="fx"><button class="btn p" id="mad">Add to scheme</button><button class="btn" id="mrm">Remove</button></div><div class="fx"><button class="btn d" id="mdel">Delete selected officials</button></div>`;
   sheet(`<h2>Manage</h2><div class="seg" style="margin:10px 0 12px">${tabs.map(([k,l])=>`<button class="${k===t?"on":""}" data-mt="${k}">${l}</button>`).join("")}</div>${body}`);
   document.querySelectorAll("[data-mt]").forEach(b=>b.onclick=()=>manage(b.dataset.mt));
   const run=async(fn,msg)=>{try{await fn();if(msg)toast(msg)}catch(e){toast(e&&e.code==="not_granted"?"Only admins can change data.":"Could not save: "+(e&&e.message||"error"))}};
   const O=DB.collection("officials");
+  if(t==="off"){$("fa").onclick=()=>{const n=$("fn").value.trim(),l=$("fl").value;if(!n)return;if(ST[l].includes(n)){toast("That office already exists.");return}run(async()=>{await DB.doc("offices/"+hid(l+n)).set({name:n,level:l});setTimeout(()=>manage("off"),500)})};
+    document.querySelectorAll("[data-do]").forEach(b=>b.onclick=()=>{if(confirm("Remove this office from the list? Officials already added to it stay."))run(async()=>{await DB.doc("offices/"+b.dataset.do).delete();setTimeout(()=>manage("off"),500)})})}
   if(t==="bk"){$("bkx").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([localStorage.getItem("sampark_v1")||"{}"],{type:"application/json"}));a.download="sampark-backup.json";a.click()};
     $("bki").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{JSON.parse(r.result);localStorage.setItem("sampark_v1",r.result);location.reload()}catch(x){toast("Not a valid backup file.")}};r.readAsText(f)}}
-  if(t==="add"){const fo=()=>{$("mo").innerHTML=ST[$("mc").value].map(x=>`<option>${esc(x)}</option>`).join("")};$("mc").onchange=fo;fo()}
+  if(t==="add"){const fo=()=>{$("mo").innerHTML=ST[$("mc").value].map(x=>`<option>${esc(x)}</option>`).join("")};const fd=v=>{$("md").innerHTML=desOpts($("mc").value,v)};$("md").onchange=()=>{if($("md").value==="__new")newDes($("mc").value,fd)};$("mc").onchange=()=>{fo();fd("")};fo();fd("")}
   if(t==="add")$("ma").onclick=()=>{const p=fixp($("mp").value),n=$("mn").value.trim();if(!n||p.length<8){toast("Enter a name and a valid phone number.");return}
-    run(async()=>{await O.add({level:$("mc").value,office:$("mo").value.trim()||"Unassigned",designation:$("md").value.trim(),name:n,phone:p,schemes:[...document.querySelectorAll("#mk input:checked")].map(x=>x.value)});["md","mn","mp"].forEach(i=>$(i).value="")},"Official added.")};
+    run(async()=>{await O.add({level:$("mc").value,office:$("mo").value.trim()||"Unassigned",designation:$("md").value.trim(),name:n,phone:p,schemes:[...document.querySelectorAll("#mk input:checked")].map(x=>x.value)});["mn","mp"].forEach(i=>$(i).value="")},"Official added.")};
   if(t==="excel"){
     $("mx").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>run(async()=>{
       const wb=XLSX.read(r.result,{type:"array"}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:""}),list=[];
-      rows.forEach(c=>{const p=fixp(c[4]);if(p.length<8||!c[3])return;const [L,Of]=canon(c[1]);list.push({level:L||lvl(String(c[0])),office:Of||"Unassigned",designation:String(c[2]),name:String(c[3]),phone:p,schemes:String(c[5]||"").split(/[,;]/).map(x=>x.trim()).filter(Boolean)})});
+      rows.forEach(c=>{const p=fixp(c[4]);if(p.length<8||!c[3]||/^example/i.test(String(c[3])))return;const [L,Of]=canon(c[1]);list.push({level:L||lvl(String(c[0])),office:Of||"Unassigned",designation:String(c[2]),name:String(c[3]),phone:p,schemes:String(c[5]||"").split(/[,;]/).map(x=>x.trim()).filter(Boolean)})});
       const ns=uniq(list.flatMap(o=>o.schemes)).filter(x=>!sch.includes(x));
       for(const x of ns)await DB.doc("schemes/"+hid(x)).set({name:x});
       for(let i=0;i<list.length;i+=10)await Promise.all(list.slice(i,i+10).map(o=>O.add(o)));
       toast(list.length+" officials imported.")});r.readAsArrayBuffer(f)};
+    $("mtpl").onclick=tpl;
     $("msamp").onclick=()=>run(async()=>{const S="SBM (Swachh Bharat Mission)";await DB.doc("schemes/"+hid(S)).set({name:S});
       const d=[[LV[0],"Ramnagar-I Development Block","BDO","Anil Kumar","919800000001"],[LV[0],"Ramnagar-I Development Block","Block Engineer","Ravi Singh","919800000002"],[LV[1],"Talgachhari-I","Nirman Sahayak","Suresh Yadav","919800000003"],[LV[1],"Haldia-II","Nirman Sahayak","Rakesh Das","919800000005"],[LV[2],"Agriculture","Block Agriculture Officer","Amit Verma","919800000006"]];
       for(const x of d)await O.add({level:x[0],office:x[1],designation:x[2],name:x[3],phone:x[4],schemes:x[3]==="Amit Verma"?[]:[S]})},"Sample data added.");
@@ -215,9 +242,16 @@ function manage(t){
       run(async()=>{await DB.doc("schemes/"+hid(n)).delete();for(const o of off.filter(o=>sch_of(o).includes(n)))await DB.doc("officials/"+o.id).update({schemes:sch_of(o).filter(x=>x!==n)});if(cs===n)cs=""})});
   }
   if(t==="sel"){
-    const up=add=>{const v=$("ms").value;if(!sel.size||!v){toast("Select officials in the list first.");return}
+    const lm=()=>{const q=$("mq").value.toLowerCase(),v=$("ms").value;
+      const L=off.filter(o=>!q||(o.name+o.office+o.designation).toLowerCase().includes(q)).sort((a,b)=>a.office.localeCompare(b.office)||a.name.localeCompare(b.name));window.mL=L;
+      $("mlist").innerHTML=L.map(o=>`<label class="ck" style="padding:7px 2px;border-bottom:1px solid var(--ln)"><input type="checkbox" data-o="${o.id}" ${sel.has(o.id)?"checked":""}><span style="flex:1"><b>${esc(o.name)}</b><br><span class="ds">${esc(o.office)} · ${esc(o.designation)}${sch_of(o).includes(v)?" · ✓ already in scheme":""}</span></span></label>`).join("")||'<span class="ds">No officials found.</span>';
+      $("mc2").textContent=sel.size+" selected"};
+    $("mq").oninput=lm;$("ms").onchange=lm;
+    $("mlist").onchange=e=>{const c=e.target.closest("input[data-o]");if(c){c.checked?sel.add(c.dataset.o):sel.delete(c.dataset.o);$("mc2").textContent=sel.size+" selected";render()}};
+    $("msa").onclick=()=>{const all=window.mL.every(o=>sel.has(o.id));window.mL.forEach(o=>all?sel.delete(o.id):sel.add(o.id));lm();render()};lm();
+    const up=add=>{const v=$("ms").value;if(!sel.size||!v){toast(!v?"Add a scheme first.":"Tick officials in the list first.");return}
       run(async()=>{for(const o of off.filter(o=>sel.has(o.id))){const s=sch_of(o).filter(x=>x!==v);if(add)s.push(v);await DB.doc("officials/"+o.id).update({schemes:s})}},"Updated.")};
-    $("mad").onclick=()=>up(true);$("mrm").onclick=()=>up(false);
+    $("mad").onclick=()=>{up(true);setTimeout(lm,700)};$("mrm").onclick=()=>{up(false);setTimeout(lm,700)};
     $("mdel").onclick=()=>{if(sel.size&&confirm("Delete "+sel.size+" official(s)?"))run(async()=>{for(const id of [...sel])await DB.doc("officials/"+id).delete();sel.clear();closeS()},"Deleted.")};
   }
 }
