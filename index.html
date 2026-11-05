@@ -1,336 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sampark · Officials Directory</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>VBDC MONITORING, RAMNAGAR-I</title>
 <style>
-:root{--bg:#f3f5f2;--sf:#fff;--ink:#14201c;--mu:#66736d;--ln:rgba(20,32,28,.09);--br:#0f6b57;--br2:#1aa583;--soft:#e4f2ec;--onb:#fff;--dg:#c0392b;--sh:0 1px 2px rgba(20,32,28,.05),0 8px 24px -12px rgba(20,32,28,.15);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b110f;--sf:#141c19;--ink:#e8efec;--mu:#8b9a94;--ln:rgba(255,255,255,.08);--br:#3ddc97;--br2:#2bb57a;--soft:#15302a;--onb:#05241a;--dg:#ef7a6c;--sh:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6);color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0b110f;--sf:#141c19;--ink:#e8efec;--mu:#8b9a94;--ln:rgba(255,255,255,.08);--br:#3ddc97;--br2:#2bb57a;--soft:#15302a;--onb:#05241a;--dg:#ef7a6c;--sh:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6);color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--ln)}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--br),var(--br2));color:var(--onb);display:grid;place-items:center;font-weight:700;letter-spacing:-.02em}
-.brand b{display:block;font-size:1.02rem;letter-spacing:-.01em}.brand small{color:var(--mu);font-size:.76rem}
-main{max-width:720px;margin:0 auto;padding:14px 16px 120px}
-button,input,select,textarea{font:inherit;color:inherit}
-button{border:0;background:none;cursor:pointer;transition:transform .12s,background .2s,opacity .2s}
-button:active{transform:scale(.96)}
-.pill{padding:8px 14px;border-radius:99px;background:var(--soft);color:var(--br);font-weight:600;font-size:.85rem}
-.lbl{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin:16px 2px 8px}
-.row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 1px 6px}.row::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;padding:8px 13px;border-radius:99px;background:var(--sf);box-shadow:var(--sh);border:1px solid var(--ln);font-weight:500;font-size:.86rem;white-space:nowrap}
-.chip i{font-style:normal;color:var(--mu);margin-left:6px;font-size:.78rem}
-.chip.on{background:linear-gradient(135deg,var(--br),var(--br2));color:var(--onb);border-color:transparent}.chip.on i{color:inherit;opacity:.8}
-.seg{display:flex;background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:4px;box-shadow:var(--sh)}
-.seg button{flex:1;padding:9px 4px;border-radius:10px;font-size:.8rem;font-weight:600;color:var(--mu);line-height:1.2}
-.seg button b{display:block;font-size:1.05rem;color:var(--ink);font-weight:700}
-.seg button.on{background:var(--soft);color:var(--br)}.seg button.on b{color:var(--br)}
-.fl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.fl .q{grid-column:1/-1}
-input,select,textarea{width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--ln);background:var(--sf);outline:0;transition:border .2s,box-shadow .2s}
-input:focus,select:focus,textarea:focus{border-color:var(--br);box-shadow:0 0 0 3px color-mix(in srgb,var(--br) 18%,transparent)}
-.lh{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 4px;color:var(--mu);font-size:.82rem}
-.lh button{color:var(--br);font-weight:600}
-.og{font-weight:600;font-size:.8rem;color:var(--mu);margin:14px 2px 8px}
-.card{display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:12px;margin-bottom:8px;box-shadow:var(--sh);animation:up .35s both}
-.card.on{border-color:var(--br);background:color-mix(in srgb,var(--soft) 60%,var(--sf))}
-@keyframes up{from{opacity:0;transform:translateY(8px)}}
-.av{width:44px;height:44px;border-radius:50%;color:#fff;font-weight:600;font-size:.92rem;display:grid;place-items:center;flex:0 0 auto}
-.av svg{width:20px;height:20px}
-.inf{flex:1;min-width:0}.nm{font-weight:600;letter-spacing:-.01em}button.nm{display:block;text-align:left;padding:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#sheet .seg{overflow-x:auto;scrollbar-width:none}#sheet .seg button{flex:0 0 auto;padding:9px 13px;white-space:nowrap}
-.ds{color:var(--mu);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tg span{display:inline-block;font-size:.68rem;font-weight:600;color:var(--br);background:var(--soft);padding:2px 8px;border-radius:99px;margin:5px 4px 0 0}
-.ac{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.ac button{width:36px;height:36px;border-radius:50%;background:var(--soft);color:var(--br);display:grid;place-items:center}
-svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;width:18px;height:18px}
-.bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:12;width:calc(100% - 28px);max-width:460px;background:var(--ink);color:var(--bg);border-radius:18px;padding:10px 10px 10px 18px;display:flex;align-items:center;gap:8px;box-shadow:0 14px 40px -10px rgba(0,0,0,.5);animation:up .25s}
-.bar span{flex:1;font-weight:600}.bar button{padding:10px 16px;border-radius:12px;font-weight:600}
-.bar .go{background:linear-gradient(135deg,var(--br),var(--br2));color:var(--onb)}.bar .x{color:var(--bg);opacity:.7}
-#ov{position:fixed;inset:0;background:rgba(5,10,8,.5);z-index:20;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
-#ov.on{display:flex}
-#sheet{background:var(--sf);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom,0px));max-height:88vh;overflow:auto;animation:sl .3s cubic-bezier(.2,.8,.2,1)}
-@keyframes sl{from{transform:translateY(40px);opacity:0}}
-#sheet h2{margin:0 0 4px;font-size:1.15rem;letter-spacing:-.01em}#sheet p{color:var(--mu);margin:0 0 12px;font-size:.88rem}
-.btn{padding:12px 16px;border-radius:12px;font-weight:600;background:var(--soft);color:var(--br)}
-.btn.p{background:linear-gradient(135deg,var(--br),var(--br2));color:var(--onb)}.btn.d{color:var(--dg);background:color-mix(in srgb,var(--dg) 12%,transparent)}
-.g{display:grid;gap:8px;margin:10px 0}.g2{grid-template-columns:1fr 1fr}.fx{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.fx>*{flex:1}
-.ck{display:flex;gap:8px;align-items:center;font-size:.88rem}.ck input{width:18px;height:18px;accent-color:var(--br)}
-.empty{text-align:center;color:var(--mu);padding:40px 16px}.empty b{display:block;color:var(--ink);font-size:1.05rem;margin-bottom:4px}
-#gate{position:fixed;inset:0;background:var(--bg);z-index:30;display:grid;place-items:center;text-align:center;padding:24px;color:var(--mu)}
-.sp{width:28px;height:28px;border-radius:50%;border:3px solid var(--ln);border-top-color:var(--br);animation:r 1s linear infinite;margin:0 auto 12px}@keyframes r{to{transform:rotate(360deg)}}
-#toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top,0px));transform:translate(-50%,-10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.86rem;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:90%}
-#toast.s{opacity:1;transform:translate(-50%,0)}
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1c2430;--mu:#6b7585;--ln:#e2e6ec;--ac:#1f6feb;--ok:#1a8a4a;--bad:#c9372c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161c;--card:#1b212a;--tx:#e8ecf2;--mu:#98a2b3;--ln:#2b3340;--ac:#5b9bff;--ok:#4cc38a;--bad:#ff7b72;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12161c;--card:#1b212a;--tx:#e8ecf2;--mu:#98a2b3;--ln:#2b3340;--ac:#5b9bff;--ok:#4cc38a;--bad:#ff7b72;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:14px;margin-bottom:12px}
+h1{font-size:19px;margin:0}h2{font-size:16px;margin:0 0 8px}
+.mu{color:var(--mu);font-size:13px}
+input,select,textarea,button{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:9px 10px;max-width:100%}
+input[type=number]{width:80px}input[type=checkbox]{width:auto}
+button{background:var(--ac);color:#fff;border:0;font-weight:600;cursor:pointer}
+button.g{background:transparent;color:var(--ac);border:1px solid var(--ln)}
+button.s{padding:4px 8px;font-size:13px;background:transparent;color:var(--bad);border:1px solid var(--ln)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.sp{justify-content:space-between}
+.tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto}.tabs button{background:var(--card);color:var(--tx);border:1px solid var(--ln);white-space:nowrap}.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+table{width:100%;border-collapse:collapse}td,th{padding:7px 4px;border-bottom:1px solid var(--ln);text-align:left;font-size:14px}
+.sc{font-weight:700;text-align:right}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.scroll{overflow-x:auto}.full{width:100%}.ct a{text-decoration:none;font-size:18px;margin-right:6px}
+.note{background:var(--bg);border:1px dashed var(--ln);border-radius:8px;padding:8px;font-size:13px;color:var(--mu)}
+
+:root{--ac:#1b7a3a;--top:#dff1e5;--sh:0 2px 12px rgba(20,60,35,.10)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ac:#3fb868;--top:#16261c;--sh:none}}
+:root[data-theme="dark"]{--ac:#3fb868;--top:#16261c;--sh:none}
+body{background-color:var(--bg);background-image:linear-gradient(180deg,var(--top),var(--bg) 260px);background-repeat:no-repeat}
+.card{border-radius:16px;box-shadow:var(--sh)}
+.banner{display:flex;justify-content:space-between;align-items:center;gap:10px;background:linear-gradient(135deg,#145c2b,#2f9e57);color:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.banner h1{font-size:18px;letter-spacing:.3px}.banner .sub{opacity:.9;font-size:13px;margin-top:2px}.banner button{background:rgba(255,255,255,.22);padding:7px 12px}
+.login{background:var(--card);border:1px solid var(--ln);border-radius:20px;padding:26px 18px;margin-top:8vh;box-shadow:var(--sh);text-align:center}
+.login .full{margin-bottom:8px}.login .note{text-align:left}.logo{font-size:42px}
+.tabs button{border-radius:20px}
+.datebar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sec{padding:0;overflow:hidden}.sec .hd{padding:13px 14px;font-weight:700;font-size:16px;color:#fff}
+.sec .hd small{display:block;font-weight:400;opacity:.92;font-size:12px;margin-top:2px}
+.hd.poor{background:linear-gradient(135deg,#b3261e,#e55a4e)}.hd.best{background:linear-gradient(135deg,#145c2b,#2f9e57)}.hd.all{background:linear-gradient(135deg,#1d4f91,#3b82d6)}
+.sec .bd{padding:4px 14px 10px}
+.it{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ln)}.it:last-child{border:0}
+.rk{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff}
+.rk.best{background:#2f9e57}.rk.poor{background:#d9453a}
+.in{flex:1;min-width:0}.nm2{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:5px;background:var(--ln);border-radius:3px;margin-top:5px;overflow:hidden}.bar i{display:block;height:100%;border-radius:3px}
+.bar i.best{background:#2f9e57}.bar i.poor{background:#d9453a}
+.rt{text-align:right}.sv{font-size:20px;font-weight:800;line-height:1.1}.sv.best{color:var(--ok)}.sv.poor{color:var(--bad)}.sv.low{color:var(--bad)}
+th{color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+
+/* theme: light orange, red = poor, light green = best */
+:root{--ac:#e8791a;--top:#ffe7cf;--ok:#1f8f4a;--bad:#d32f2f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ac:#f59a45;--top:#2c1e10;--ok:#5fd18b;--bad:#ff6b63}}
+:root[data-theme="dark"]{--ac:#f59a45;--top:#2c1e10;--ok:#5fd18b;--bad:#ff6b63}
+.banner{background:linear-gradient(135deg,#ffb066,#ffd5a8);color:#4a2800}
+.banner button{background:rgba(255,255,255,.6);color:#4a2800}
+.tabs button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.hd.all{background:linear-gradient(135deg,#ffb066,#ffd5a8);color:#4a2800}
+.hd.poor{background:linear-gradient(135deg,#c62828,#ef5350);color:#fff}
+.hd.best{background:linear-gradient(135deg,#a8e6b8,#cdf3d6);color:#14532d}
+.rk.poor{background:#d32f2f}.rk.best{background:#8fd9a4;color:#14532d}
+.bar i.poor{background:#d32f2f}.bar i.best{background:#8fd9a4}
+.sv.poor,.sv.low{color:var(--bad)}.sv.best{color:var(--ok)}
+.xb{display:flex;gap:6px;justify-content:flex-end;padding:8px 0 2px}.xb button{padding:5px 10px;font-size:13px}
+.tg{min-width:64px}
 </style>
-</head>
-<body>
-<header>
-  <div class="brand"><div class="logo">S</div><div><b>Sampark</b><small id="sub">Officials directory</small></div></div>
-  <button class="pill" id="gear" hidden>Manage</button>
-</header>
-<main>
-  <div class="dashboard" id="dashboard"></div><div class="lbl" style="margin-top:4px">Scheme</div><div class="row" id="chips"></div>
-  <div class="lbl">Level</div><div class="seg" id="seg"></div>
-  <div class="fl"><input class="q" id="q" placeholder="Search name or number" type="search"><select id="fnfilter" class="name-filter"><option value="">All names (A–Z)</option></select><select id="fd"></select><select id="fo"></select></div>
-  <div id="list"></div>
-</main>
-<div id="bar"></div>
-<div id="ov"><div id="sheet"></div></div>
-<div id="toast"></div>
-<div id="gate"><div><div class="sp"></div>Opening directory…</div></div>
-<input type="file" id="fp" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,image/*,application/pdf" multiple hidden>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script>
-const $=id=>document.getElementById(id),LV=["Block Level","Gram Panchayat","Line Department"];
-const BASE={"Block Level":["Ramnagar-I Development Block"],"Line Department":["Food & Supply","Agriculture","Health","Land","CDPO","School Education","Bank","Animal Husbandry","Fishery"],"Gram Panchayat":["Talgachhari-I","Talgachhari-II","Haldia-I","Haldia-II","Padima-I","Padima-II","Gobra","Basantapur","Badhia"]};
-const DBASE={"Block Level":["BDO","Joint BDO","Block Engineer","Assistant Engineer","Executive Assistant","Block Programme Manager","Accountant","Data Entry Operator","Office Staff"],"Gram Panchayat":["Pradhan","Upa-Pradhan","Secretary","Executive Assistant","Nirman Sahayak","Sahayak","Karmadhyaksha","Data Entry Operator","GP Member"],"Line Department":["Officer-in-Charge","Medical Officer","Agriculture Officer","BL&LRO","CDPO","Sub-Inspector of Schools","Bank Manager","Livestock Development Officer","Fishery Extension Officer","Junior Engineer","Inspector","Supervisor","Clerk"]};
-let ST=JSON.parse(JSON.stringify(BASE)),customO=[],DS=JSON.parse(JSON.stringify(DBASE)),customD=[],hidden=[];
-function rebuild(){const h=(k,l,n)=>hidden.some(x=>x.kind===k&&x.level===l&&x.name===n);ST={};DS={};
-  for(const l of LV){ST[l]=BASE[l].filter(n=>!h("office",l,n));DS[l]=DBASE[l].filter(n=>!h("designation",l,n))}
-  customO.forEach(o=>{if(ST[o.level]&&!ST[o.level].includes(o.name))ST[o.level].push(o.name)});
-  customD.forEach(d=>{if(DS[d.level]&&!DS[d.level].includes(d.name))DS[d.level].push(d.name)})}
-const desOpts=(l,cur)=>{const v=(DS[l]||[]).slice();if(cur&&!v.includes(cur))v.push(cur);return'<option value="">Select designation</option>'+v.map(x=>`<option ${x===cur?"selected":""}>${esc(x)}</option>`).join("")+'<option value="__new">+ Add new designation…</option>'};
-async function newDes(l,cb){const n=(prompt("New designation for "+l+":")||"").trim();if(!n){cb("");return}if(!DS[l].includes(n))DS[l].push(n);try{await DB.doc("designations/"+hid(l+n)).set({name:n,level:l})}catch(e){toast("Shown here, but could not be stored.")}cb(n)}
-const canon=s=>{s=String(s||"").trim();for(const l in ST){const m=ST[l].find(x=>x.toLowerCase()===s.toLowerCase());if(m)return[l,m]}return[null,s]};
-const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const I={ph:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',ch:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',cl:'<svg viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></svg>',ck:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',ct:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M18 8v8M14 12h8"/></svg>'};
-let LOCAL=0,DB=null,U=null,admin=false,off=[],sch=[],level="All",cs="",sel=new Set(),got=0,tgt=null,fpMode="";
-const H=s=>Array.from(String(s)).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
-const hid=s=>"s"+H(s),fixp=s=>{s=String(s||"").replace(/\D/g,"");return s.length===10?"91"+s:s};
-const lvl=s=>{s=String(s).toLowerCase();return s.includes("block")?LV[0]:/gram|gp|panch/.test(s)?LV[1]:LV[2]};
-const ini=n=>n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
-const uniq=a=>a.filter((x,i)=>x&&a.indexOf(x)===i).sort();
-let tt;function toast(t){const e=$("toast");e.textContent=t;e.className="s";clearTimeout(tt);tt=setTimeout(()=>e.className="",3200)}
-const sheet=h=>{$("sheet").innerHTML=h;$("ov").className="on"},closeS=()=>{$("ov").className=""};
-$("ov").onclick=e=>{if(e.target.id==="ov")closeS()};
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body><div class="wrap" id="app"></div>
+<script type="module">
+import {initializeApp,deleteApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,createUserWithEmailAndPassword,EmailAuthProvider,reauthenticateWithCredential,updatePassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,setDoc,deleteDoc,deleteField,onSnapshot,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyBG6EeS9bfkpjmbBOZEVKpenlwpbQCbxUk",authDomain:"vbdc-ramnagar-i.firebaseapp.com",projectId:"vbdc-ramnagar-i",storageBucket:"vbdc-ramnagar-i.firebasestorage.app",messagingSenderId:"66954033456",appId:"1:66954033456:web:81f27bce2699c3574570f5"};
+const fapp=initializeApp(firebaseConfig),auth=getAuth(fapp),fdb=getFirestore(fapp);
+const ADMIN='7679199543',DOM='@vbdc-ramnagar.app',DEFPW='Admin@123',CC='91';
+const ROLES={block:'Block Level Nodal Officer',dealing:'Block Level Dealing Official',gp:'GP Level Nodal Officer',bst:'VBDC Supervisor',sur:'VBDC Surveyor'};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>d.toLocaleDateString('en-CA');
+const today=()=>iso(new Date());
+const addDays=(s,n)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return iso(d)};
+const DEFMSG='Hello {name}, your survey count for {date} was {count} (average {avg} per day). Please improve your daily survey work. - Block Nodal Officer';
+const DEFSMSG='Hello {name}, the survey report for {date} has not been uploaded yet. Please upload it today. - Krishnendu Mallick, Block Nodal Officer';
+const SPA=[['pe','Perennial Spots','No of Perennial Spots Cleanliness Activity'],['mk','Market','No of Market Cleanliness Activity'],['sc','School','No of School Cleanliness Activity'],['ic','ICDS','No of ICDS Cleanliness Activity'],['hc','Health Centre','No of Health Centre Cleanliness Activity'],['go','Govt. Office','No of Government office Cleanliness Activity']];
+const DEFSPMSG='Hello {name}, the special activity report for {date} has not been uploaded yet. Please upload it today. - Krishnendu Mallick, Block Nodal Officer';
+const defDash=()=>({days:15,target:0,label:'Today survey count',avgMin:20,msg:DEFMSG,smsg:DEFSMSG,spmsg:DEFSPMSG});
+const fillMsg=(n,v,t)=>(t||cfg.dash.msg||DEFMSG).replace(/\{name\}/g,n).replace(/\{date\}/g,v.date).replace(/\{count\}/g,v.count).replace(/\{avg\}/g,v.avg);
+let editU=null,fmsg='',spOk='';
+let cfg={users:[],dash:defDash()},reports={},me=null,tab='',vDate=today(),msg='',umsg='',emsg='',rSup='',lp='',ready=false,dirty=false,unsubs=[],boot=false;
+const sups=()=>cfg.users.filter(u=>u.role==='bst');
+const gpName=u=>{if(!u)return'';if(u.gp)return u.gp;const d=u.desig||'',i=d.indexOf('-');return i>0?d.slice(i+1).trim():u.name};
+const team=sp=>cfg.users.filter(u=>u.role==='sur'&&u.sup===sp);
+const val=e=>+e.a||0;
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fortStart=d=>d.slice(0,8)+(+d.slice(8,10)<=15?'01':'16');
+const fortLabel=d=>{const first=+d.slice(8,10)<=15,last=new Date(+d.slice(0,4),+d.slice(5,7),0).getDate();return (first?'1-15 ':'16-'+last+' ')+MON[+d.slice(5,7)-1]};
+const fort=(sp,p,d)=>{const f=fortStart(d);let s=0;Object.values(reports).forEach(r=>{if(r.sup===sp&&r.date>=f&&r.date<=d){const e=(r.entries||[]).find(x=>x.p===p);if(e)s+=val(e)}});return s};
+const saveCfg=()=>setDoc(doc(fdb,'settings','main'),{dash:cfg.dash}).catch(()=>{});
+const refresh=()=>{if(me&&!dirty)draw()};
 
-/* local mode: used when the page is hosted outside Claude (e.g. GitHub Pages); data stays on this phone */
-function localDB(){
-  const K="sampark_v1";let d;try{d=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){d={}}
-  d.officials=d.officials||{};d.schemes=d.schemes||{};d.offices=d.offices||{};d.designations=d.designations||{};d.hidden=d.hidden||{};const subs={};
-  const save=()=>{try{localStorage.setItem(K,JSON.stringify(d))}catch(e){}};
-  const snap=c=>({docs:Object.entries(d[c]).map(([id,v])=>({id,data:()=>v}))});
-  const fire=c=>(subs[c]||[]).forEach(f=>f(snap(c)));
-  return{collection:c=>({onSnapshot(cb){(subs[c]=subs[c]||[]).push(cb);setTimeout(()=>cb(snap(c)),0)},async add(v){const id="o"+Date.now()+Math.random().toString(36).slice(2,7);d[c][id]=v;save();fire(c);return{id}}}),
-  doc:p=>{const[c,id]=p.split("/");return{async set(v){d[c][id]=v;save();fire(c)},async update(v){d[c][id]={...d[c][id],...v};save();fire(c)},async delete(){delete d[c][id];save();fire(c)}}}}
-}
-/* data */
-(async()=>{
-  const t=setTimeout(()=>{if(!DB)$("gate").innerHTML='<div><b style="color:var(--ink)">Sign in to open Sampark</b><br>Open this link in the Claude app or browser while signed in to Claude. Ask the admin for access if you do not have it.</div>'},10000);
-  try{if(typeof claude!=="undefined"){U=await claude.use("user");DB=await claude.use("db")}}catch(e){}if(!DB){try{DB=localDB();U={canEdit:()=>true};LOCAL=1}catch(e){return}}
-  if(!DB)return;clearTimeout(t);
-  admin=!!(U&&U.canEdit());$("gear").hidden=!admin;
-  const fin=()=>{if(++got>=2){$("gate").style.display="none"}render()};
-  const er=e=>toast("Could not load: "+(e&&e.message||"error"));
-  let f1=0,f2=0;
-  DB.collection("officials").onSnapshot(s=>{off=s.docs.map(d=>{const v=d.data();return{id:d.id,...v,phones:Array.isArray(v.phones)?v.phones:[v.phone,v.phone2,v.phone3].filter(Boolean)}});if(!f1){f1=1;fin()}else render()},er);
-  DB.collection("schemes").onSnapshot(s=>{sch=s.docs.map(d=>d.data().name).filter(Boolean).sort();if(!f2){f2=1;fin()}else render()},er);
-  DB.collection("designations").onSnapshot(s=>{customD=s.docs.map(d=>({id:d.id,...d.data()}));rebuild();render()},()=>{});
-  DB.collection("offices").onSnapshot(s=>{customO=s.docs.map(d=>({id:d.id,...d.data()}));rebuild();render()},()=>{});
-  DB.collection("hidden").onSnapshot(s=>{hidden=s.docs.map(d=>d.data());rebuild();render()},()=>{});
-})();
-
-/* render */
-const sch_of=o=>o.schemes||[];
-const phones_of=o=>{const a=Array.isArray(o.phones)?o.phones:[o.phone,o.phone2,o.phone3];return [...new Set(a.map(fixp).filter(x=>x.length>=8))]};
-const phone_text=o=>phones_of(o).map((p,i)=>(i?"Additional "+i+": ":"")+p).join(" · ");
-function render(){
-  const b=off.filter(o=>!cs||sch_of(o).includes(cs));
-  const counts=Object.fromEntries(LV.map(l=>[l,b.filter(o=>o.level===l).length]));
-  $("dashboard").innerHTML=`<div class="stat"><b>${b.length}</b><span>Total officials</span></div><div class="stat"><b>${counts[LV[0]]}</b><span>Block level</span></div><div class="stat"><b>${counts[LV[1]]+counts[LV[2]]}</b><span>GP + Departments</span></div>`;
-  const nameSel=$("fnfilter"),oldName=nameSel.value;
-  const levelNames=b.filter(o=>level==="All"||o.level===level).map(o=>o.name);
-  nameSel.innerHTML='<option value="">All names (A–Z)</option>'+uniq(levelNames).sort((a,b)=>a.localeCompare(b)).map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
-  if([...nameSel.options].some(x=>x.value===oldName))nameSel.value=oldName;
-  $("sub").textContent=cs?cs:LOCAL?"Saved on this phone · "+off.length+" officials":"Ramnagar-I Block · "+off.length+" officials";
-  $("chips").innerHTML=[""].concat(sch).map(x=>`<button class="chip ${x===cs?"on":""}" data-sc="${esc(x)}">${x?esc(x):"All schemes"}<i>${off.filter(o=>!x||sch_of(o).includes(x)).length}</i></button>`).join("");
-  $("seg").innerHTML=[["All","All"],[LV[0],"Block"],[LV[1],"Gram Panchayat"],[LV[2],"Line Dept"]].map(([v,l])=>`<button class="${v===level?"on":""}" data-lv="${v}"><b>${b.filter(o=>v==="All"||o.level===v).length}</b>${l}</button>`).join("");
-  // Strictly scope the view and its filter choices to the selected level.
-  const lb=b.filter(o=>level==="All"||o.level===level);
-  const fill=(id,lab,v)=>{const s=$(id),c=s.value;s.innerHTML=`<option value="">${lab}</option>`+v.map(x=>`<option>${esc(x)}</option>`).join("");if(v.includes(c))s.value=c};
-  const levelDesignations=level==="All"?Object.values(DS).flat():[
-    ...(DS[level]||[]), ...lb.map(o=>o.designation)
-  ];
-  const levelOffices=level==="All"?Object.values(ST).flat():[
-    ...(ST[level]||[]), ...lb.map(o=>o.office)
-  ];
-  fill("fd","All designations",uniq(levelDesignations));
-  fill("fo","All offices",level===LV[0]?["Ramnagar-I Development Block"]:uniq(levelOffices));
-  const d=$("fd").value,f=$("fo").value,q=$("q").value.toLowerCase(),nm=$("fnfilter").value;
-  const s=lb.filter(o=>(!d||o.designation===d)&&(!f||(level===LV[0]||o.office===f))&&(!nm||o.name===nm)&&(!q||((o.name+" "+phones_of(o).join(" ")).toLowerCase().includes(q))));
-  window.shownList=s;
-  const g={};s.forEach(o=>{
-    if(level!=="All"&&o.level!==level)return;
-    const office=level===LV[0]?"Ramnagar-I Development Block":o.office;
-    (g[office]=g[office]||[]).push(o);
-  });
-  let n=0;
-  $("list").innerHTML=s.length?`<div class="lh"><span>${s.length} officials</span><button data-act="all">${s.every(o=>sel.has(o.id))?"Deselect all":"Select all"}</button></div>`+Object.keys(g).sort().map(k=>`<div class="og">${esc(k)}</div>`+g[k].sort((a,b)=>a.name.localeCompare(b.name)).map(o=>{const on=sel.has(o.id);const lc=o.level===LV[0]?"level-block":o.level===LV[1]?"level-gp":"level-line";return`<div class="card ${lc} ${on?"on":""}" style="animation-delay:${Math.min(n++,10)*25}ms"><button class="av" data-act="tog" data-id="${o.id}" style="background:hsl(${H(o.name)%360} 42% 40%)">${on?I.ck:esc(ini(o.name))}</button><div class="inf">${admin?`<button class="nm" data-act="edit" data-id="${o.id}">${esc(o.name)}</button>`:`<div class="nm">${esc(o.name)}</div>`}<div class="ds">${esc(o.designation)} · ${esc(o.office)}</div><div class="phone-extra">${esc(phone_text(o))}</div><div class="tg">${sch_of(o).map(x=>`<span>${esc(x)}</span>`).join("")}</div></div><div class="ac"><button data-act="call" data-id="${o.id}" aria-label="Call">${I.ph}</button><button data-act="contact" data-id="${o.id}" aria-label="Save contact" title="Save contact">${I.ct}</button><button data-act="chat" data-id="${o.id}" aria-label="WhatsApp">${I.ch}</button><button data-act="file" data-id="${o.id}" aria-label="Send file">${I.cl}</button></div></div>`}).join("")).join(""):`<div class="empty"><b>No officials here yet</b>${admin?'Tap Manage to add or import from Excel.':'The admin has not added anyone to this view.'}</div>`;
-  $("bar").innerHTML=sel.size?`<div class="bar"><span>${sel.size} selected</span><button class="x" data-act="clr">Clear</button>${admin?'<button class="x" data-act="asg">Scheme</button>':""}<button class="go" data-act="bulk">Send</button></div>`:"";
-}
-$("q").oninput=render;$("fnfilter").onchange=render;$("fd").onchange=$("fo").onchange=render;
-document.addEventListener("click",e=>{
-  const b=e.target.closest("button");if(!b)return;const D=b.dataset,a=D.act,o=D.id&&off.find(x=>x.id===D.id);
-  if(D.sc!==undefined&&b.classList.contains("chip")){cs=D.sc;$("fd").value="";$("fo").value="";return render()}
-  if(D.lv){
-    level=D.lv;
-    $("fd").value="";
-    $("fo").value="";
-    $("fnfilter").value="";
-    $("q").value="";
-    return render();
-  }
-  if(a==="tog"){sel.has(D.id)?sel.delete(D.id):sel.add(D.id);render()}
-  else if(a==="all"){const all=window.shownList.every(x=>sel.has(x.id));window.shownList.forEach(x=>all?sel.delete(x.id):sel.add(x.id));render()}
-  else if(a==="clr"){sel.clear();render()}
-  else if(a==="chat")wa(o,"");
-  else if(a==="call")dialOfficial(o);
-  else if(a==="contact")saveContact(o)
-  else if(a==="file"){tgt=o;fpMode="one";$("fp").click()}
-  else if(a==="bulk")bulk();
-  else if(a==="asg")manage("sel");
-  else if(a==="edit"&&o)editOff(o);
+onAuthStateChanged(auth,u=>{
+  unsubs.forEach(f=>f());unsubs=[];me=null;boot=false;dirty=false;cfg={users:[],dash:defDash()};reports={};
+  if(!u){ready=true;draw();return}
+  const ph=(u.email||'').split('@')[0],bad=()=>{msg='This number is not registered. Contact the Block Nodal Officer.';signOut(auth)};
+  unsubs.push(onSnapshot(collection(fdb,'users'),sn=>{
+    cfg.users=sn.docs.map(d=>d.data());
+    const m=cfg.users.find(x=>x.phone===ph&&x.role!=='sur'),was=me;
+    if(m){me=m;if(ph===ADMIN&&m.name==='Block Nodal Officer'&&!boot){boot=true;setDoc(doc(fdb,'users',ADMIN),{...m,name:'Krishnendu Mallick'}).catch(()=>{})}}
+    else if(ph===ADMIN){me={role:'block',name:'Block Nodal Officer',phone:ADMIN,desig:ROLES.block};
+      if(!boot){boot=true;setDoc(doc(fdb,'users',ADMIN),{role:'block',name:'Krishnendu Mallick',desig:ROLES.block,phone:ADMIN}).catch(()=>{})}}
+    else return bad();
+    ready=true;if(!was){tab='';dirty=false}refresh();
+  },bad));
+  unsubs.push(onSnapshot(doc(fdb,'settings','main'),d=>{if(d.exists()&&d.data().dash)cfg.dash={...defDash(),...d.data().dash};refresh()},()=>{}));
+  unsubs.push(onSnapshot(collection(fdb,'reports'),sn=>{reports={};sn.docs.forEach(d=>{if(d.data().v===2)reports[d.id]=d.data()});refresh()},()=>{}));
 });
-const wa=(o,t)=>{const p=phones_of(o)[0]||fixp(o.phone);if(p)window.open("https://wa.me/"+p+(t?"?text="+encodeURIComponent(t):""),"_blank","noopener")};
-function dialNumber(p){
-  // Stored numbers are normalised for WhatsApp with India's 91 country code.
-  // The Android dialler should receive the local 10-digit mobile number.
-  let n=String(p||"").replace(/\\D/g,"");
-  if(n.length===12&&n.startsWith("91"))n=n.slice(2);
-  if(n.length===11&&n.startsWith("0"))n=n.slice(1);
-  return n;
-}
-function dialOfficial(o){
-  const ps=phones_of(o).map(dialNumber).filter(p=>p.length===10);
-  if(!ps.length){toast("No valid 10-digit phone number saved for this official.");return}
-  if(ps.length===1){location.href="tel:"+ps[0];return}
-  sheet(`<h2>Call ${esc(o.name)}</h2><p>Select the number to call.</p><div class="g">${ps.map((p,i)=>`<button class="btn" data-dial="${p}">${i===0?"Main number":("Additional number "+(i+1))} · ${p}</button>`).join("")}</div><div class="fx"><button class="btn" id="dialCancel">Cancel</button></div>`);
-  document.querySelectorAll("[data-dial]").forEach(b=>b.onclick=()=>{const p=b.dataset.dial;closeS();location.href="tel:"+p});
-  $("dialCancel").onclick=closeS;
-}
-function vcardEscape(v){return String(v||"").replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\\;")}
-async function saveContact(o){
-  const ps=phones_of(o);
-  if(!ps.length){toast("No valid phone number saved for this official.");return}
-  // Put designation and office directly beside the contact name in the
-  // Contacts display name, while retaining them as separate vCard fields too.
-  const contactLabel=String(o.name||"").trim()+" ("+
-    [o.designation,o.office].map(x=>String(x||"").trim()).filter(Boolean).join(", ")+")";
-  const lines=["BEGIN:VCARD","VERSION:3.0","N:"+vcardEscape(o.name)+";;;;","FN:"+vcardEscape(contactLabel),...ps.map(p=>"TEL;TYPE=CELL:"+p)];
-  if(o.designation)lines.push("TITLE:"+vcardEscape(o.designation));
-  if(o.office)lines.push("ORG:"+vcardEscape(o.office));
-  lines.push("END:VCARD");
-  const blob=new Blob([lines.join("\r\n")],{type:"text/vcard;charset=utf-8"});
-  const file=new File([blob],(String(o.name||"official").replace(/[^a-z0-9_-]/gi,"_")||"official")+".vcf",{type:"text/vcard"});
-  try{
-    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Save "+o.name+" contact"});return}
-  }catch(e){if(e&&e.name==="AbortError")return}
-  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);
-  toast("Contact file downloaded. Open it and choose Save to Contacts.");
-}
-async function share(o,t,fl){
-  try{if(fl.length&&navigator.canShare&&navigator.canShare({files:fl})){toast("Choose WhatsApp, then "+o.name);await navigator.share({files:fl,text:t||undefined});return}}catch(e){if(e&&e.name==="AbortError")return}
-  wa(o,t);if(fl.length)toast("Attach the file in the chat with the + button.");
-}
-$("fp").onchange=e=>{const fl=[...e.target.files];e.target.value="";if(!fl.length)return;if(fpMode==="one"&&tgt)share(tgt,"",fl);else if(fpMode==="bulk"){bf=fl;bulk(true)}};
 
-/* bulk send */
-let bf=[],bt="",bq=[],bi=0;
-function bulk(keep){
-  if(!keep)bf=[];const n=sel.size;
-  sheet(`<h2>Send to ${n} official${n>1?"s":""}</h2><p>WhatsApp requires a separate chat for each recipient. The attached PDF or document can be shared with each person in sequence; it cannot be silently broadcast by the webpage.</p><textarea id="bt" rows="3" placeholder="Message (optional)">${esc(bt)}</textarea><div class="fx"><button class="btn" id="bff">${bf.length?bf.length+" file(s) attached · change":"Attach PDF or image"}</button></div><div class="fx"><button class="btn" id="bc">Cancel</button><button class="btn p" id="bs">Start</button></div>`);
-  $("bff").onclick=()=>{bt=$("bt").value;fpMode="bulk";$("fp").click()};$("bc").onclick=closeS;
-  $("bs").onclick=()=>{bt=$("bt").value.trim();bq=off.filter(o=>sel.has(o.id));bi=0;step()};
-}
-function step(){
-  if(bi>=bq.length){sheet(`<h2>All done</h2><p>You went through ${bq.length} officials.</p><div class="fx"><button class="btn p" id="bd">Close</button></div>`);$("bd").onclick=()=>{sel.clear();closeS();render()};return}
-  const o=bq[bi];
-  sheet(`<p>${bi+1} of ${bq.length}</p><h2>${esc(o.name)}</h2><p>${esc(o.designation)} · ${esc(o.office)}<br>+${esc(o.phone)}</p><div class="fx"><button class="btn p" id="s1">${bf.length?"Share file in WhatsApp":"Open WhatsApp chat"}</button><button class="btn" id="s2">Call</button></div><div class="fx"><button class="btn" id="s3">Next</button><button class="btn" id="s4">Stop</button></div>`);
-  $("s1").onclick=()=>bf.length?share(o,bt,bf):wa(o,bt);$("s2").onclick=()=>dialOfficial(o);
-  $("s3").onclick=()=>{bi++;step()};$("s4").onclick=closeS;
+function draw(){
+  const a=document.getElementById('app');
+  if(!ready){a.innerHTML='<div class="login"><div class="logo">📊</div><p class="mu">Loading…</p></div>';return}
+  if(!me){dirty=false;a.innerHTML=loginView();bindLogin();return}
+  const T={bst:[['entry','Daily entry'],['sp','Special activity'],['dash','Dashboard']],gp:[['dash','Dashboard']],dealing:[['dash','Dashboard']],
+    block:[['dash','Dashboard'],['users','Users'],['reports','Reports'],['format','Format']]}[me.role].concat([['pw','Password']]);
+  if(!tab||!T.find(t=>t[0]===tab))tab=T[0][0];
+  const sp=tab==='reports'?(rSup||(sups()[0]||{}).phone):me.phone;
+  a.innerHTML=`<div class="banner"><div><h1>VBDC MONITORING, RAMNAGAR-I</h1><div class="sub">${esc(me.name)} · ${ROLES[me.role]}</div></div><button id="out">Log out</button></div>
+  <div class="tabs">${T.map(t=>`<button class="${tab===t[0]?'on':''}" data-t="${t[0]}">${t[1]}</button>`).join('')}</div>
+  ${tab==='entry'?entryView(sp,false):tab==='sp'?spView(sp,false,true):tab==='reports'?msgView()+entryView(sp,true)+spView(sp,true,false):tab==='dash'?dashView():tab==='users'?usersView():tab==='pw'?pwView():formatView()}`;
+  document.getElementById('out').onclick=()=>signOut(auth);
+  a.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;umsg='';emsg='';spOk='';draw()});
+  if(tab==='entry'||tab==='reports')bindEntry(sp,tab==='reports');if(tab==='sp')bindSp(sp,false,true);if(tab==='reports'){bindMsg();bindSp(sp,true,false)}
+  if(tab==='dash'){document.getElementById('dt').onchange=e=>{vDate=e.target.value||today();draw()};const f=document.getElementById('fr');if(f)f.onchange=e=>{cfg.dash.from=e.target.value;saveCfg();draw()};const sfi=document.getElementById('sf');if(sfi)sfi.onchange=e=>{cfg.dash.spFrom=e.target.value;saveCfg();draw()};const cb=document.getElementById('ctb');if(cb)cb.onclick=()=>{contactOn=!contactOn;try{localStorage.setItem('contactOn',contactOn?'1':'0')}catch(e){}draw()};a.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>dl(b.dataset.x,b.dataset.f));a.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{const i=b.dataset.h;hid.has(i)?hid.delete(i):hid.add(i);try{localStorage.setItem('hid',JSON.stringify([...hid]))}catch(e){}draw()})}
+  if(tab==='users')bindUsers();if(tab==='format')bindFormat();if(tab==='pw')bindPw();
+  dirty=false;a.oninput=()=>{dirty=true};
 }
 
-function editOff(o){
-  const cur=sch_of(o);
-  sheet(`<h2>Edit official</h2><div class="g g2"><select id="ec">${LV.map(l=>`<option ${l===o.level?"selected":""}>${l}</option>`).join("")}</select><select id="eo"></select><select id="ed"></select><input id="en" placeholder="Name" value="${esc(o.name)}"><input id="ep" placeholder="Main phone number" inputmode="tel" value="${esc(phones_of(o)[0]||o.phone||"")}" style="grid-column:1/-1"><input id="ep2" placeholder="Additional phone 2 (optional)" inputmode="tel" value="${esc(phones_of(o)[1]||"")}"><input id="ep3" placeholder="Additional phone 3 (optional)" inputmode="tel" value="${esc(phones_of(o)[2]||"")}"></div><div class="lbl">Schemes</div><div class="g" id="ek">${sch.map(x=>`<label class="ck"><input type="checkbox" value="${esc(x)}" ${cur.includes(x)?"checked":""}> ${esc(x)}</label>`).join("")||'<span class="ds">No schemes yet. Add one in Manage.</span>'}</div><div class="fx"><button class="btn d" id="edl">Delete</button><button class="btn p" id="esv">Save</button></div>`);
-  const fd=v=>{$("ed").innerHTML=desOpts($("ec").value,v)};$("ed").onchange=()=>{if($("ed").value==="__new")newDes($("ec").value,x=>fd(x||o.designation))};const fo=()=>{fd(o.designation);const l=$("ec").value,v=ST[l].slice();if(l===o.level&&!v.includes(o.office))v.push(o.office);$("eo").innerHTML=v.map(x=>`<option ${x===o.office?"selected":""}>${esc(x)}</option>`).join("")};$("ec").onchange=fo;fo();
-  $("esv").onclick=async()=>{const ps=[$("ep").value,$("ep2").value,$("ep3").value].map(fixp).filter(x=>x.length>=8),p=ps[0],n=$("en").value.trim();if(!n||!p){toast("Enter a name and a valid main phone number.");return}
-    try{await DB.doc("officials/"+o.id).update({level:$("ec").value,office:$("eo").value,designation:$("ed").value.trim(),name:n,phone:p,phones:ps,schemes:[...document.querySelectorAll("#ek input:checked")].map(x=>x.value)});closeS();toast("Saved.")}catch(e){toast(e&&e.code==="not_granted"?"Only admins can change data.":"Could not save.")}};
-  $("edl").onclick=async()=>{if(!confirm("Delete "+o.name+"?"))return;try{await DB.doc("officials/"+o.id).delete();sel.delete(o.id);closeS()}catch(e){toast("Could not delete.")}};
+// ---------- Login ----------
+function loginView(){
+  return `<div class="login"><div class="logo">📊</div><h1>VBDC MONITORING, RAMNAGAR-I</h1><p class="mu">Log in with your mobile number and password.</p>
+  <input id="ph" type="tel" inputmode="numeric" maxlength="10" placeholder="Mobile number (your ID)" class="full" value="${esc(lp)}">
+  <input id="pw" type="password" placeholder="Password" class="full"><button id="go" class="full">Log in</button>
+  <p class="bad">${esc(msg)}</p><div class="note">You stay logged in on this phone until you tap Log out. Forgot your password? Ask the Block Nodal Officer.</div></div>`;
 }
-/* admin */
-function tpl(){try{
-  const wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([["Category","Office","Designation","Name","Main Phone","Schemes","Additional Phone 2","Additional Phone 3"],["Gram Panchayat","Talgachhari-I","Nirman Sahayak","EXAMPLE - delete this row","9800000000","SBM (Swachh Bharat Mission), VBTC","",""]]);
-  ws["!cols"]=[16,30,26,26,16,40,20,20].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,ws,"Officials");
-  const mx=Math.max(...LV.map(l=>ST[l].length)),o=[LV.slice()];for(let i=0;i<mx;i++)o.push(LV.map(l=>ST[l][i]||""));
-  const w2=XLSX.utils.aoa_to_sheet(o);w2["!cols"]=[30,30,30].map(w=>({wch:w}));XLSX.utils.book_append_sheet(wb,w2,"Valid offices");
-  XLSX.writeFile(wb,"Sampark-template.xlsx");toast("Template downloaded.")}catch(e){toast("Could not create the template here.")}}
-const sc=(id)=>sch.map(x=>`<label class="ck"><input type="checkbox" value="${esc(x)}"> ${esc(x)}</label>`).join("")||'<span class="ds">Add a scheme first.</span>';
-$("gear").onclick=()=>manage("add");
-function manage(t){
-  const tabs=[["add","Add"],["excel","Excel"],["off","Offices"],["des","Designations"],["sch","Schemes"],["sel","Assign"]].concat(LOCAL?[["bk","Backup"]]:[]);
-  let body="";
-  if(t==="add")body=`<div class="g g2"><select id="mc">${LV.map(l=>`<option>${l}</option>`).join("")}</select><select id="mo"></select><select id="md"></select><input id="mn" placeholder="Name"><input id="mp" placeholder="Main phone number" inputmode="tel" style="grid-column:1/-1"><input id="mp2" placeholder="Additional phone 2 (optional)" inputmode="tel"><input id="mp3" placeholder="Additional phone 3 (optional)" inputmode="tel"></div><div class="g" id="mk">${sc()}</div><div class="fx"><button class="btn p" id="ma">Add official</button></div>`;
-  if(t==="off"||t==="des"){const K=t==="off"?"office":"designation",LS=t==="off"?ST:DS;
-    body=`<p>${t==="off"?"Add an office, or remove ones you do not need. Officials already in a removed office stay in the list.":"Add a designation, or remove ones you do not need. Officials keep the designation they already have."}</p><div class="g" style="grid-template-columns:auto 1fr"><select id="fl">${LV.map(l=>`<option>${l}</option>`).join("")}</select><input id="fn" placeholder="New ${K} name"></div><div class="fx"><button class="btn p" id="fa">Add ${K}</button></div>`+LV.map(l=>`<div class="lbl">${l}</div><div class="fx" style="flex-wrap:wrap">${LS[l].map(n=>`<button class="btn d" data-dl="${esc(l)}|${esc(n)}" style="flex:0 0 auto">${esc(n)} ✕</button>`).join("")||'<span class="ds">None.</span>'}</div>`).join("")}
-  if(t==="bk")body=`<p>Data is saved only on this phone. Save a backup file, or restore one here.</p><div class="fx"><button class="btn p" id="bkx">Save backup file</button></div><div class="g"><input type="file" id="bki" accept=".json"></div>`;
-  if(t==="excel")body=`<p>First sheet: A category, B office, C designation, D name, E main phone, F schemes, G/H optional additional phone numbers. Separate schemes with commas. Use exact office names. Header row optional. 10-digit numbers get 91 added.</p><input type="file" id="mx" accept=".xlsx,.xls,.csv"><div class="fx"><button class="btn p" id="mtpl">Download Excel template</button><button class="btn" id="msamp">Load sample data</button></div>`;
-  if(t==="sch")body=`<div class="g g2" style="grid-template-columns:1fr auto"><input id="mn2" placeholder="New scheme, e.g. VBTC"><button class="btn p" id="mas">Add</button></div><div class="fx" style="flex-wrap:wrap">${sch.map(x=>`<button class="btn d" data-ds="${esc(x)}" style="flex:0 0 auto">${esc(x)} ✕</button>`).join("")||'<span class="ds">No schemes yet.</span>'}</div>`;
-  if(t==="sel")body=`<select id="ms">${sch.map(x=>`<option>${esc(x)}</option>`).join("")}</select><input id="mq" placeholder="Search officials…" style="margin-top:8px"><div class="fx" style="align-items:center"><span class="ds" id="mc2"></span><button class="btn" id="msa" style="flex:0 0 auto">Select all shown</button></div><div id="mlist" style="max-height:34vh;overflow:auto;margin-top:6px"></div><div class="fx"><button class="btn p" id="mad">Add to scheme</button><button class="btn" id="mrm">Remove</button></div><div class="fx"><button class="btn d" id="mdel">Delete selected officials</button></div>`;
-  sheet(`<h2>Manage</h2><div class="seg" style="margin:10px 0 12px">${tabs.map(([k,l])=>`<button class="${k===t?"on":""}" data-mt="${k}">${l}</button>`).join("")}</div>${body}`);
-  document.querySelectorAll("[data-mt]").forEach(b=>b.onclick=()=>manage(b.dataset.mt));
-  const run=async(fn,msg)=>{try{await fn();if(msg)toast(msg)}catch(e){toast(e&&e.code==="not_granted"?"Only admins can change data.":"Could not save: "+(e&&e.message||"error"))}};
-  const O=DB.collection("officials");
-  if(t==="off"||t==="des"){const K=t==="off"?"office":"designation",CO=t==="off"?"offices":"designations",PR=t==="off"?BASE:DBASE,LS=()=>t==="off"?ST:DS,again=()=>setTimeout(()=>manage(t),500);
-    $("fa").onclick=()=>{const n=$("fn").value.trim(),l=$("fl").value;if(!n)return;if(LS()[l].includes(n)){toast("Already in the list.");return}
-      run(async()=>{try{await DB.doc("hidden/"+hid(K+l+n)).delete()}catch(e){}if(!PR[l].includes(n))await DB.doc(CO+"/"+hid(l+n)).set({name:n,level:l});again()})};
-    document.querySelectorAll("[data-dl]").forEach(b=>b.onclick=()=>{const k=b.dataset.dl,i=k.indexOf("|"),l=k.slice(0,i),n=k.slice(i+1);
-      const used=off.filter(o=>o.level===l&&(t==="off"?o.office:o.designation)===n).length;
-      if(!confirm("Remove "+n+" from the "+K+" list?"+(used?"\n"+used+" official(s) already use it and will stay in the list.":"")))return;
-      run(async()=>{if(PR[l].includes(n))await DB.doc("hidden/"+hid(K+l+n)).set({kind:K,level:l,name:n});else await DB.doc(CO+"/"+hid(l+n)).delete();again()})})}
-  if(t==="bk"){$("bkx").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([localStorage.getItem("sampark_v1")||"{}"],{type:"application/json"}));a.download="sampark-backup.json";a.click()};
-    $("bki").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{JSON.parse(r.result);localStorage.setItem("sampark_v1",r.result);location.reload()}catch(x){toast("Not a valid backup file.")}};r.readAsText(f)}}
-  if(t==="add"){const fo=()=>{$("mo").innerHTML=ST[$("mc").value].map(x=>`<option>${esc(x)}</option>`).join("")};const fd=v=>{$("md").innerHTML=desOpts($("mc").value,v)};$("md").onchange=()=>{if($("md").value==="__new")newDes($("mc").value,fd)};$("mc").onchange=()=>{fo();fd("")};fo();fd("")}
-  if(t==="add")$("ma").onclick=()=>{const ps=[$("mp").value,$("mp2").value,$("mp3").value].map(fixp).filter(x=>x.length>=8),p=ps[0],n=$("mn").value.trim();if(!n||!p){toast("Enter a name and a valid main phone number.");return}
-    run(async()=>{await O.add({level:$("mc").value,office:$("mo").value.trim()||"Unassigned",designation:$("md").value.trim(),name:n,phone:p,phones:ps,schemes:[...document.querySelectorAll("#mk input:checked")].map(x=>x.value)});["mn","mp","mp2","mp3"].forEach(i=>$(i).value="")},"Official added.")};
-  if(t==="excel"){
-    $("mx").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>run(async()=>{
-      const wb=XLSX.read(r.result,{type:"array"}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:""}),list=[];
-      rows.forEach(c=>{const ps=[c[4],c[6],c[7]].map(fixp).filter(x=>x.length>=8),p=ps[0];if(!p||!c[3]||/^example/i.test(String(c[3])))return;const [L,Of]=canon(c[1]);list.push({level:L||lvl(String(c[0])),office:Of||"Unassigned",designation:String(c[2]),name:String(c[3]),phone:p,phones:ps,schemes:String(c[5]||"").split(/[,;]/).map(x=>x.trim()).filter(Boolean)})});
-      const ns=uniq(list.flatMap(o=>o.schemes)).filter(x=>!sch.includes(x));
-      for(const x of ns)await DB.doc("schemes/"+hid(x)).set({name:x});
-      for(let i=0;i<list.length;i+=10)await Promise.all(list.slice(i,i+10).map(o=>O.add(o)));
-      toast(list.length+" officials imported.")});r.readAsArrayBuffer(f)};
-    $("mtpl").onclick=tpl;
-    $("msamp").onclick=()=>run(async()=>{const S="SBM (Swachh Bharat Mission)";await DB.doc("schemes/"+hid(S)).set({name:S});
-      const d=[[LV[0],"Ramnagar-I Development Block","BDO","Anil Kumar","919800000001"],[LV[0],"Ramnagar-I Development Block","Block Engineer","Ravi Singh","919800000002"],[LV[1],"Talgachhari-I","Nirman Sahayak","Suresh Yadav","919800000003"],[LV[1],"Haldia-II","Nirman Sahayak","Rakesh Das","919800000005"],[LV[2],"Agriculture","Block Agriculture Officer","Amit Verma","919800000006"]];
-      for(const x of d)await O.add({level:x[0],office:x[1],designation:x[2],name:x[3],phone:x[4],schemes:x[3]==="Amit Verma"?[]:[S]})},"Sample data added.");
-  }
-  if(t==="sch"){
-    $("mas").onclick=()=>{const n=$("mn2").value.trim();if(n)run(async()=>{await DB.doc("schemes/"+hid(n)).set({name:n});manage("sch")})};
-    document.querySelectorAll("[data-ds]").forEach(b=>b.onclick=()=>{const n=b.dataset.ds;if(!confirm("Delete scheme "+n+"? Officials stay; only the tag is removed."))return;
-      run(async()=>{await DB.doc("schemes/"+hid(n)).delete();for(const o of off.filter(o=>sch_of(o).includes(n)))await DB.doc("officials/"+o.id).update({schemes:sch_of(o).filter(x=>x!==n)});if(cs===n)cs=""})});
-  }
-  if(t==="sel"){
-    const lm=()=>{const q=$("mq").value.toLowerCase(),v=$("ms").value;
-      const L=off.filter(o=>!q||(o.name+o.office+o.designation).toLowerCase().includes(q)).sort((a,b)=>a.office.localeCompare(b.office)||a.name.localeCompare(b.name));window.mL=L;
-      $("mlist").innerHTML=L.map(o=>`<label class="ck" style="padding:7px 2px;border-bottom:1px solid var(--ln)"><input type="checkbox" data-o="${o.id}" ${sel.has(o.id)?"checked":""}><span style="flex:1"><b>${esc(o.name)}</b><br><span class="ds">${esc(o.office)} · ${esc(o.designation)}${sch_of(o).includes(v)?" · ✓ already in scheme":""}</span></span></label>`).join("")||'<span class="ds">No officials found.</span>';
-      $("mc2").textContent=sel.size+" selected"};
-    $("mq").oninput=lm;$("ms").onchange=lm;
-    $("mlist").onchange=e=>{const c=e.target.closest("input[data-o]");if(c){c.checked?sel.add(c.dataset.o):sel.delete(c.dataset.o);$("mc2").textContent=sel.size+" selected";render()}};
-    $("msa").onclick=()=>{const all=window.mL.every(o=>sel.has(o.id));window.mL.forEach(o=>all?sel.delete(o.id):sel.add(o.id));lm();render()};lm();
-    const up=add=>{const v=$("ms").value;if(!sel.size||!v){toast(!v?"Add a scheme first.":"Tick officials in the list first.");return}
-      run(async()=>{for(const o of off.filter(o=>sel.has(o.id))){const s=sch_of(o).filter(x=>x!==v);if(add)s.push(v);await DB.doc("officials/"+o.id).update({schemes:s})}},"Updated.")};
-    $("mad").onclick=()=>{up(true);setTimeout(lm,700)};$("mrm").onclick=()=>{up(false);setTimeout(lm,700)};
-    $("mdel").onclick=()=>{if(sel.size&&confirm("Delete "+sel.size+" official(s)?"))run(async()=>{for(const id of [...sel])await DB.doc("officials/"+id).delete();sel.clear();closeS()},"Deleted.")};
-  }
+function bindLogin(){
+  const g=id=>document.getElementById(id);
+  const go=async()=>{const p=g('ph').value.trim();lp=p;
+    if(!/^\d{10}$/.test(p)||!g('pw').value){msg='Enter your 10-digit mobile number and password.';draw();return}
+    g('go').disabled=true;g('go').textContent='Logging in…';
+    try{await signInWithEmailAndPassword(auth,p+DOM,g('pw').value);msg=''}
+    catch(e){msg=e.code==='auth/network-request-failed'?'No internet connection.':'Wrong mobile number or password.';draw()}};
+  g('go').onclick=go;g('pw').onkeydown=e=>{if(e.key==='Enter')go()};
 }
-</script>
-</body>
-</html>
+
+// ---------- Messages (admin) ----------
+function msgView(){
+  return `<div class="card"><h2>Messages for WhatsApp / SMS</h2><p class="mu">Typed into WhatsApp or SMS when you tap 💬 or ✉️. You can use {name}, {date}, {count} and {avg}; the app fills them in for each person.</p>
+  <b>To surveyors</b><textarea id="mt" rows="4" class="full" style="margin:4px 0 10px">${esc(cfg.dash.msg||DEFMSG)}</textarea>
+  <b>To supervisors whose report is not uploaded</b><textarea id="mt2" rows="3" class="full" style="margin:4px 0 10px">${esc(cfg.dash.smsg||DEFSMSG)}</textarea>
+  <b>To supervisors whose special activity report is not uploaded</b><textarea id="mt3" rows="3" class="full" style="margin:4px 0 10px">${esc(cfg.dash.spmsg||DEFSPMSG)}</textarea>
+  <div class="row"><button id="ms" class="full">Save messages</button><button id="mr" class="g full">Use default messages</button></div><p id="mo" class="ok"></p></div>`;
+}
+function bindMsg(){
+  const g=id=>document.getElementById(id);
+  g('ms').onclick=()=>{cfg.dash.msg=g('mt').value.trim()||DEFMSG;cfg.dash.smsg=g('mt2').value.trim()||DEFSMSG;cfg.dash.spmsg=g('mt3').value.trim()||DEFSPMSG;saveCfg();g('mo').textContent='Saved ✓'};
+  g('mr').onclick=()=>{cfg.dash.msg=DEFMSG;cfg.dash.smsg=DEFSMSG;cfg.dash.spmsg=DEFSPMSG;saveCfg();g('mt').value=DEFMSG;g('mt2').value=DEFSMSG;g('mt3').value=DEFSPMSG;g('mo').textContent='Default messages restored ✓'};
+}
+
+// ---------- Password ----------
+function pwView(){
+  return `<div class="card"><h2>Change password</h2>
+  <input id="p0" type="password" class="full" placeholder="Current password" style="margin-bottom:8px">
+  <input id="p1" type="password" class="full" placeholder="New password (at least 6 characters)" style="margin-bottom:8px">
+  <input id="p2" type="password" class="full" placeholder="Type the new password again" style="margin-bottom:8px">
+  <button id="pb" class="full">Change password</button><p id="pm"></p></div>`;
+}
+function bindPw(){
+  const g=id=>document.getElementById(id),say=(t,ok)=>{g('pm').className=ok?'ok':'bad';g('pm').textContent=t};
+  g('pb').onclick=async()=>{
+    if(g('p1').value.length<6)return say('New password must be at least 6 characters.');
+    if(g('p1').value!==g('p2').value)return say('The two new passwords do not match.');
+    try{await reauthenticateWithCredential(auth.currentUser,EmailAuthProvider.credential(auth.currentUser.email,g('p0').value));
+      await updatePassword(auth.currentUser,g('p1').value);say('✓ Password changed.',true);['p0','p1','p2'].forEach(i=>g(i).value='')}
+    catch(e){say(e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'?'Current password is wrong.':'Could not change password. Try again.')}};
+}
+
+// ---------- Entry (supervisor) / Report database (admin) ----------
+function entryView(sp,adm){
+  if(!sp)return '<div class="card">No supervisors found. Upload users first (Users tab).</div>';
+  const sv=sups(),rid=vDate+'_'+sp,rep=reports[rid],tm=team(sp),D=cfg.dash;
+  const get=p=>(rep&&(rep.entries||[]).find(e=>e.p===p))||{};
+  return `<div class="card"><div class="row sp"><h2>${adm?'Report database':'Daily report'}</h2><input type="date" id="dt" value="${vDate}" max="${today()}"></div>
+  ${adm?`<select id="ss" class="full" style="margin-bottom:8px">${sv.map(s=>`<option value="${s.phone}" ${s.phone===sp?'selected':''}>${esc(gpName(s))} (${esc(s.name)})</option>`).join('')}</select>`:''}
+  <p class="mu">${rep&&rep.entries?'Saved earlier. You can edit and save again.':'Not yet submitted for this date.'}</p>
+  ${tm.length?`<div class="scroll"><table><tr><th>Surveyor</th><th>${esc(D.label)}</th><th>Cumulative report for this fortnight<div class="mu" style="text-transform:none;font-weight:400">(${fortLabel(vDate)})</div></th></tr>
+  ${tm.map(u=>{const e=get(u.phone);return `<tr data-p="${u.phone}"><td>${esc(u.name)}</td><td><input type="number" class="pv" min="0" value="${e.a??''}"></td><td class="sc">${fort(sp,u.phone,vDate)}</td></tr>`}).join('')}</table></div>
+  <button id="save" class="full" style="margin-top:12px">Save report</button>${adm&&rep&&rep.entries?'<button id="del" class="g full" style="margin-top:8px">Delete this report</button>':''}`:'<p class="mu">No surveyors are assigned to this supervisor yet.</p>'}<p id="ok" class="ok">${esc(emsg)}</p></div>`;
+}
+function bindEntry(sp,adm){
+  const g=id=>document.getElementById(id);
+  g('dt').onchange=e=>{vDate=e.target.value||today();emsg='';draw()};
+  if(g('ss'))g('ss').onchange=e=>{rSup=e.target.value;emsg='';draw()};
+  if(g('save'))g('save').onclick=async()=>{
+    const entries=[];
+    document.querySelectorAll('tr[data-p]').forEach(tr=>{const u=cfg.users.find(x=>x.phone===tr.dataset.p);
+      entries.push({p:u.phone,n:u.name,a:Math.max(0,Math.floor(+tr.querySelector('.pv').value||0))})});
+    const rid=vDate+'_'+sp,d={v:2,date:vDate,sup:sp,entries,by:me.name};
+    g('save').disabled=true;g('save').textContent='Saving…';
+    try{await setDoc(doc(fdb,'reports',rid),d,{merge:true});reports[rid]={...(reports[rid]||{}),...d};emsg='Saved ✓';dirty=false;draw()}
+    catch(e){g('save').disabled=false;g('save').textContent='Save report';g('ok').className='bad';g('ok').textContent='Could not save ('+(e.code||'error')+'). Check internet and try again.'}};
+  if(g('del'))g('del').onclick=async()=>{try{await setDoc(doc(fdb,'reports',vDate+'_'+sp),{entries:deleteField()},{merge:true});if(reports[vDate+'_'+sp])delete reports[vDate+'_'+sp].entries;emsg='';dirty=false;draw()}catch(e){}};
+}
+
+// ---------- Dashboard ----------
+const EXP={};
+const canC=()=>me.role==='block'||me.role==='dealing';
+let contactOn=(()=>{try{return localStorage.getItem('contactOn')==='1'}catch(e){return false}})();
+const hid=new Set((()=>{try{return JSON.parse(localStorage.getItem('hid')||'[]')}catch(e){return []}})());
+const ct=(p,n,v,tpl)=>{if(!canC()||!contactOn)return'';const t=encodeURIComponent(fillMsg(n,v,tpl));
+  return `<span class="ct"><a href="tel:+${CC}${p}" target="_blank" rel="noopener">📞</a><a href="https://wa.me/${CC}${p}?text=${t}" target="_blank" rel="noopener">💬</a><a href="sms:+${CC}${p}?body=${t}" target="_blank" rel="noopener">✉️</a></span>`};
+const lst=(items,k)=>{if(!items.length)return'<p class="mu" style="padding:8px 0">No data yet.</p>';const mx=Math.max(1,...items.map(x=>x.v));
+  return items.map((r,i)=>`<div class="it"><div class="rk ${k}">${i+1}</div><div class="in"><div class="nm2">${esc(r.n)}</div><div class="mu">${esc(r.sub)}</div><div class="mu">${esc(r.stat)}</div><div class="bar"><i class="${k}" style="width:${Math.max(3,Math.round(r.v/mx*100))}%"></i></div></div><div class="rt"><div class="sv ${k}${r.low?' low':''}">${r.v}</div>${r.c||''}</div></div>`).join('')};
+const sec=(k,title,sub,body,id)=>{const h=hid.has(id);
+  return `<div class="card sec"><div class="hd ${k}">${title}${sub?`<small>${sub}</small>`:''}</div><div class="bd"><div class="xb"><button class="g" data-h="${id}">${h?'Show details':'Hide details'}</button>${canC()&&EXP[id]?`<button class="g" data-x="${id}" data-f="xlsx">⬇ Excel</button><button class="g" data-x="${id}" data-f="pdf">⬇ PDF</button>`:''}</div>${h?'':body}</div></div>`};
+function dl(id,f){
+  const e=EXP[id];if(!e||!canC())return;
+  if(f==='xlsx'){if(typeof XLSX==='undefined')return alert('Excel library could not load.');
+    const ws=XLSX.utils.aoa_to_sheet([[e.title],[e.sub],[],e.head,...e.rows]),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Report');XLSX.writeFile(wb,e.fname+'.xlsx')}
+  else{if(!window.jspdf)return alert('PDF library could not load.');
+    const d=new window.jspdf.jsPDF({unit:'pt',format:'a4'});d.setFontSize(13);d.text(e.title,40,40);d.setFontSize(9);d.text(e.sub,40,56);
+    d.autoTable({head:[e.head],body:e.rows,startY:70,styles:{fontSize:8},headStyles:{fillColor:[232,121,26]}});d.save(e.fname+'.pdf')}
+}
+function dashView(){
+  const D=cfg.dash,adm=me.role==='block',pv=canC(),on=pv&&contactOn,N=10,from=D.from||addDays(today(),-14),per=from+' to '+vDate;
+  Object.keys(EXP).forEach(k=>delete EXP[k]);
+  const st={};
+  cfg.users.filter(u=>u.role==='sur').forEach(u=>{const s=cfg.users.find(x=>x.phone===u.sup);st[u.phone]={p:u.phone,n:u.name,gp:s?gpName(s):'-',today:null,s:0,c:0,si:0,ci:0}});
+  Object.values(reports).forEach(r=>(r.entries||[]).forEach(e=>{const x=st[e.p];if(!x)return;const v=val(e);
+    if(r.date===vDate)x.today=v;
+    if(r.date>=from&&r.date<=vDate){x.s+=v;x.c++}
+    x.si+=v;x.ci++}));
+  const all=Object.values(st),f1=x=>x.toFixed(1);
+  all.forEach(x=>{x.avg=x.c?x.s/x.c:0;x.avgi=x.ci?x.si/x.ci:0});
+  const rep=all.filter(x=>x.today!==null),pAll=all.filter(x=>x.c>0);
+  const tPoor=rep.slice().sort((a,b)=>a.today-b.today).slice(0,N),tBest=rep.slice().sort((a,b)=>b.today-a.today).slice(0,N);
+  const pPoor=pAll.slice().sort((a,b)=>a.s-b.s).slice(0,N),pBest=pAll.slice().sort((a,b)=>b.s-a.s).slice(0,N);
+  const low=pAll.filter(x=>x.avg<D.avgMin).sort((a,b)=>a.avg-b.avg);
+  const tAll=all.slice().sort((a,b)=>(b.today===null?-1:b.today)-(a.today===null?-1:a.today)||a.n.localeCompare(b.n));
+  const cAll=pAll.slice().sort((a,b)=>b.s-a.s),iAll=all.filter(x=>x.ci>0).sort((a,b)=>b.si-a.si);
+  const mv=(x,m)=>m==='day'?{date:vDate,count:x.today===null?0:x.today,avg:f1(x.avg)}:{date:per,count:x.s,avg:f1(x.avg)};
+  const stat=x=>`Today ${x.today===null?'-':x.today} · Avg ${f1(x.avg)}/day · Total ${x.s} (${x.c} days)`;
+  const it=(x,v,m,lw)=>({n:x.n,sub:x.gp,stat:stat(x),v,low:lw,c:ct(x.p,x.n,mv(x,m))});
+  const reg=(id,title,sub,arr,inc)=>{EXP[id]={fname:id+'-'+vDate,title,sub,head:['#','Surveyor','GP','Today','Days','Avg/day','Total'].concat(pv?['Phone']:[]),
+    rows:arr.map((x,i)=>[i+1,x.n,x.gp,x.today===null?'':x.today,inc?x.ci:x.c,+f1(inc?x.avgi:x.avg),inc?x.si:x.s].concat(pv?[x.p]:[]))}};
+  const tb=(arr,cols,m)=>arr.length?`<div class="scroll"><table><tr><th>#</th><th>Surveyor</th>${cols.map(c=>`<th class="sc">${c[0]}</th>`).join('')}${on?'<th></th>':''}</tr>${arr.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.n)}<div class="mu">${esc(x.gp)}</div></td>${cols.map(c=>`<td class="sc">${c[1](x)}</td>`).join('')}${on?`<td>${ct(x.p,x.n,mv(x,m))}</td>`:''}</tr>`).join('')}</table></div>`:'<p class="mu" style="padding:8px 0">No data yet.</p>';
+  // supervisor upload status
+  const sv=cfg.users.filter(u=>u.role==='bst').map(u=>({u,ok:!!(reports[vDate+'_'+u.phone]&&reports[vDate+'_'+u.phone].entries&&reports[vDate+'_'+u.phone].entries.length)})).sort((a,b)=>a.ok-b.ok||a.u.name.localeCompare(b.u.name));
+  const yes=sv.filter(x=>x.ok).length;
+  EXP['sup-status']={fname:'supervisor-report-status-'+vDate,title:'Supervisor report status',sub:'Date '+vDate,head:['#','Supervisor','GP','Phone','Report uploaded'],rows:sv.map((x,i)=>[i+1,x.u.name,gpName(x.u),x.u.phone,x.ok?'YES':'NO'])};
+  const thanks='Hello {name}, thank you for uploading the survey report for {date}.';
+  const svBody=sv.length?sv.map((x,i)=>`<div class="it"><div class="rk ${x.ok?'best':'poor'}">${i+1}</div><div class="in"><div class="nm2">${esc(x.u.name)}</div><div class="mu">${esc(gpName(x.u))}</div></div><div class="rt"><div class="sv ${x.ok?'best':'poor'}">${x.ok?'YES':'NO'}</div>${ct(x.u.phone,x.u.name,{date:vDate,count:'',avg:''},x.ok?thanks:(D.smsg||DEFSMSG))}</div></div>`).join(''):'<p class="mu" style="padding:8px 0">No supervisors yet.</p>';
+  reg('today-poor','Today poorest 10','Date '+vDate,tPoor);reg('today-best','Today best 10','Date '+vDate,tBest);
+  reg('period-poor','Poorest 10 since period start','Period '+per,pPoor);reg('period-best','Best 10 since period start','Period '+per,pBest);
+  reg('avg-low','Daily average below '+D.avgMin,'Period '+per,low);
+  reg('today-all','Today total report (all VST)','Date '+vDate,tAll);reg('period-all','Cumulative report from period start','Period '+per,cAll);
+  reg('inception','Cumulative report since inception','Up to '+vDate,iAll,true);
+  const tTot=rep.reduce((a,x)=>a+x.today,0),pTot=pAll.reduce((a,x)=>a+x.s,0),iTot=iAll.reduce((a,x)=>a+x.si,0);
+  const dates=Object.values(reports).filter(r=>r.entries&&r.entries.length).map(r=>r.date).sort();
+  // ----- special activity reports -----
+  const SPN=cfg.users.filter(u=>u.role==='bst').slice().sort((a,b)=>gpName(a).localeCompare(gpName(b)));
+  const dmy=d=>d.split('-').reverse().join('.'),spFrom=D.spFrom||addDays(today(),-14);
+  const spSum=(a,b)=>SPN.map(u=>{const v={};SPA.forEach(x=>v[x[0]]=0);let any=false;
+    Object.values(reports).forEach(r=>{if(r.sp&&r.sup===u.phone&&r.date>=a&&r.date<=b){any=true;SPA.forEach(x=>v[x[0]]+=(+r.sp[x[0]]||0))}});
+    return{u,v,any,t:SPA.reduce((s,x)=>s+v[x[0]],0)}});
+  const spTbl=(rows,id,title,sub,blank)=>{
+    const tot={};SPA.forEach(x=>tot[x[0]]=rows.reduce((s,r)=>s+r.v[x[0]],0));const gt=rows.reduce((s,r)=>s+r.t,0);
+    const cell=(r,k)=>blank&&!r.any?'':r.v[k],tc=r=>blank&&!r.any?'':r.t;
+    EXP[id]={fname:id+'-'+vDate,title,sub,head:['Sl','Gram Panchayat',...SPA.map(x=>x[1]),'Total'],rows:rows.map((r,i)=>[i+1,gpName(r.u),...SPA.map(x=>cell(r,x[0])),tc(r)]).concat([['','TOTAL',...SPA.map(x=>tot[x[0]]),gt]])};
+    return rows.length?`<div class="scroll"><table><tr><th>Sl</th><th>Gram Panchayat</th>${SPA.map(x=>`<th class="sc">${x[1]}</th>`).join('')}<th class="sc">Total</th></tr>${rows.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(gpName(r.u))}</b></td>${SPA.map(x=>`<td class="sc">${cell(r,x[0])}</td>`).join('')}<td class="sc">${tc(r)}</td></tr>`).join('')}<tr><td></td><td><b>TOTAL</b></td>${SPA.map(x=>`<td class="sc">${tot[x[0]]}</td>`).join('')}<td class="sc">${gt}</td></tr></table></div>`:'<p class="mu" style="padding:8px 0">No supervisors yet.</p>'};
+  const spv=SPN.map(u=>({u,ok:!!(reports[vDate+'_'+u.phone]&&reports[vDate+'_'+u.phone].sp)})).sort((a,b)=>a.ok-b.ok||gpName(a.u).localeCompare(gpName(b.u)));
+  const spy=spv.filter(x=>x.ok).length,spthanks='Hello {name}, thank you for uploading the special activity report for {date}.';
+  EXP['sp-status']={fname:'special-activity-status-'+vDate,title:'Special activity report updated?',sub:'Date '+vDate,head:['#','Supervisor','GP','Phone','Report uploaded'],rows:spv.map((x,i)=>[i+1,x.u.name,gpName(x.u),x.u.phone,x.ok?'YES':'NO'])};
+  const spBody=spv.length?spv.map((x,i)=>`<div class="it"><div class="rk ${x.ok?'best':'poor'}">${i+1}</div><div class="in"><div class="nm2">${esc(gpName(x.u))}</div><div class="mu">${esc(x.u.name)}</div></div><div class="rt"><div class="sv ${x.ok?'best':'poor'}">${x.ok?'YES':'NO'}</div>${ct(x.u.phone,x.u.name,{date:vDate,count:'',avg:''},x.ok?spthanks:(D.spmsg||DEFSPMSG))}</div></div>`).join(''):'<p class="mu" style="padding:8px 0">No supervisors yet.</p>';
+  const spStatus=sec('all','🧹 Special activity report updated?',vDate+' · '+spy+' YES · '+(spv.length-spy)+' NO',spBody,'sp-status');
+  const dTitle='Status of Special Pulse mode cleaning activity on '+dmy(vDate),spDates=Object.values(reports).filter(r=>r.sp).map(r=>r.date).sort();
+  const spSections=sec('all','🧹 Daily special activity report',dTitle,spTbl(spSum(vDate,vDate),'sp-daily',dTitle,'Date '+vDate,true),'sp-daily')
+   +`<div class="card datebar"><div><b>Special activity: start date</b><div class="mu">${adm?'Choose the date to measure from':'Set by the Block Nodal Officer'}</div></div>${adm?`<input type="date" id="sf" value="${spFrom}" max="${vDate}">`:`<b>${dmy(spFrom)}</b>`}</div>`
+   +sec('all','🧹 Cumulative special activity report from '+dmy(spFrom),dmy(spFrom)+' to '+dmy(vDate),spTbl(spSum(spFrom,vDate),'sp-period','Cumulative special activity report from '+dmy(spFrom),dmy(spFrom)+' to '+dmy(vDate),false),'sp-period')
+   +sec('all','🧹 Cumulative special activity report since inception',spDates.length?'From '+dmy(spDates[0])+' to '+dmy(vDate):'',spTbl(spSum('0000-01-01',vDate),'sp-inc','Cumulative special activity report since inception','Up to '+dmy(vDate),false),'sp-inc');
+  return `${pv?`<div class="card datebar"><div><b>Call / WhatsApp / SMS</b><div class="mu">${on?'📞 💬 ✉️ shown beside every name':'Hidden. Switch ON to show beside every name'}</div></div><button id="ctb" class="tg ${on?'':'g'}">${on?'ON':'OFF'}</button></div>`:''}
+  <div class="card datebar"><div><b>Report date</b><div class="mu">Dashboard shows data up to this day</div></div><input type="date" id="dt" value="${vDate}" max="${today()}"></div>
+  ${sec('all','📨 Today’s report uploaded?',vDate+' · '+yes+' YES · '+(sv.length-yes)+' NO',svBody,'sup-status')}
+  ${spStatus}
+  ${sec('poor','⚠️ Today’s 10 poorest performers',vDate,lst(tPoor.map(x=>it(x,x.today,'day',D.target>0&&x.today<D.target)),'poor'),'today-poor')}
+  ${sec('best','🏆 Today’s 10 best performers',vDate,lst(tBest.map(x=>it(x,x.today,'day',D.target>0&&x.today<D.target)),'best'),'today-best')}
+  <div class="card datebar"><div><b>Period start date</b><div class="mu">${adm?'Choose the date to measure from':'Set by the Block Nodal Officer'}</div></div>${adm?`<input type="date" id="fr" value="${from}" max="${vDate}">`:`<b>${from}</b>`}</div>
+  ${sec('poor','⚠️ 10 poorest performers since '+from,'Total '+esc(D.label)+', '+per,lst(pPoor.map(x=>it(x,x.s,'per')),'poor'),'period-poor')}
+  ${sec('best','🏆 10 best performers since '+from,'Total '+esc(D.label)+', '+per,lst(pBest.map(x=>it(x,x.s,'per')),'best'),'period-best')}
+  ${sec('poor','📉 Daily average below '+D.avgMin+' ('+low.length+')','Average per day, '+per,lst(low.map(x=>it(x,+f1(x.avg),'per')),'poor'),'avg-low')}
+  ${sec('all','📋 Today’s total report (all VST)',vDate+' · '+rep.length+' of '+all.length+' surveyors reported · total '+tTot+' surveys',tb(tAll,[['Today',x=>x.today===null?'-':x.today],['Avg',x=>f1(x.avg)],['Total',x=>x.s]],'day'),'today-all')}
+  ${sec('all','📋 Cumulative report from period start',per+' · total '+pTot+' surveys',tb(cAll,[['Days',x=>x.c],['Avg',x=>f1(x.avg)],['Total',x=>x.s]],'per'),'period-all')}
+  ${sec('all','📈 Cumulative report since inception',dates.length?'From '+dates[0]+' · '+iAll.length+' surveyors · '+iTot+' total surveys':'',tb(iAll,[['Days',x=>x.ci],['Avg',x=>f1(x.avgi)],['Total',x=>x.si]],'per'),'inception')}
+  ${spSections}`;
+}
+
+// ---------- Special activity report ----------
+function spView(sp,adm,withDate){
+  if(!sp)return'';
+  const rid=vDate+'_'+sp,rep=reports[rid],v=(rep&&rep.sp)||{},u=cfg.users.find(x=>x.phone===sp);
+  const tot=SPA.reduce((a,x)=>a+(+v[x[0]]||0),0);
+  return `<div class="card"><div class="row sp"><h2>${adm?'Special activity report':'Special Pulse mode cleaning activity'}</h2>${withDate?`<input type="date" id="dt" value="${vDate}" max="${today()}">`:''}</div>
+  <p class="mu">${esc(gpName(u))} · ${rep&&rep.sp?'Saved earlier. You can edit and save again.':'Not yet submitted for this date.'}</p>
+  ${SPA.map(a=>`<div class="row sp" style="padding:7px 0;border-bottom:1px solid var(--ln)"><span style="flex:1">${a[2]}</span><input type="number" min="0" class="spv" data-k="${a[0]}" value="${v[a[0]]??''}"></div>`).join('')}
+  <div class="row sp" style="padding:10px 0"><b>Total cleanliness done</b><b id="spt">${tot}</b></div>
+  <button id="spsave" class="full">Save special activity report</button>${adm&&rep&&rep.sp?'<button id="spdel" class="g full" style="margin-top:8px">Delete this report</button>':''}<p id="spok" class="ok">${esc(spOk)}</p></div>`;
+}
+function bindSp(sp,adm,withDate){
+  const g=id=>document.getElementById(id);
+  if(!sp)return;
+  if(withDate)g('dt').onchange=e=>{vDate=e.target.value||today();spOk='';draw()};
+  const upd=()=>{g('spt').textContent=[...document.querySelectorAll('.spv')].reduce((a,i)=>a+(+i.value||0),0)};
+  document.querySelectorAll('.spv').forEach(i=>i.oninput=upd);
+  g('spsave').onclick=async()=>{
+    const vals={};document.querySelectorAll('.spv').forEach(i=>vals[i.dataset.k]=Math.max(0,Math.floor(+i.value||0)));
+    const rid=vDate+'_'+sp;g('spsave').disabled=true;g('spsave').textContent='Saving…';
+    try{await setDoc(doc(fdb,'reports',rid),{v:2,date:vDate,sup:sp,sp:vals,spBy:me.name},{merge:true});reports[rid]={...(reports[rid]||{v:2,date:vDate,sup:sp}),sp:vals};spOk='Saved ✓';dirty=false;draw()}
+    catch(e){g('spsave').disabled=false;g('spsave').textContent='Save special activity report';g('spok').className='bad';g('spok').textContent='Could not save ('+(e.code||'error')+'). Check internet and try again.'}};
+  if(g('spdel'))g('spdel').onclick=async()=>{const rid=vDate+'_'+sp;try{await setDoc(doc(fdb,'reports',rid),{sp:deleteField()},{merge:true});if(reports[rid])delete reports[rid].sp;spOk='';dirty=false;draw()}catch(e){}};
+}
+
+// ---------- Users (admin, Excel upload) ----------
+function userForm(){
+  const e=editU?cfg.users.find(u=>u.phone===editU):null,r=e?e.role:'sur',sv=sups();
+  return `<div class="card"><h2>${e?'Edit user':'Add one user'}</h2>
+  <input id="un" class="full" placeholder="Name" value="${esc(e?e.name:'')}" style="margin-bottom:8px">
+  <input id="up" class="full" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit phone number" value="${e?e.phone:''}" ${e?'readonly':''} style="margin-bottom:8px">
+  <select id="ur" class="full" style="margin-bottom:8px" ${e&&e.phone===me.phone?'disabled':''}>${Object.keys(ROLES).map(k=>`<option value="${k}" ${k===r?'selected':''}>${ROLES[k]}</option>`).join('')}</select>
+  <select id="us" class="full" style="margin-bottom:8px">${sv.map(s=>`<option value="${s.phone}" ${e&&e.sup===s.phone?'selected':''}>${esc(gpName(s))} · ${esc(s.name)}</option>`).join('')||'<option value="">No supervisors yet</option>'}</select>
+  <input id="ug" class="full" placeholder="GP name (for supervisors), e.g. Talgachhari-II" value="${esc(e&&e.gp?e.gp:'')}" style="margin-bottom:8px">
+  <div class="row"><button id="usv" class="full">${e?'Update user':'Add user'}</button>${e?'<button id="ucn" class="g full">Cancel</button>':''}</div>
+  <p id="uf" class="${fmsg.startsWith('✓')?'ok':'bad'}">${esc(fmsg)}</p></div>`;
+}
+function usersView(){
+  const cnt=Object.keys(ROLES).map(k=>`${ROLES[k]}: <b>${cfg.users.filter(u=>u.role===k).length}</b>`).join(' · ');
+  const order=Object.keys(ROLES);
+  const list=cfg.users.slice().sort((a,b)=>order.indexOf(a.role)-order.indexOf(b.role));
+  return userForm()+`<div class="card"><h2>Upload users from Excel</h2>
+  <p class="mu">First sheet, with columns: <b>Name</b>, <b>Designation</b>, <b>Phone Number</b>. For surveyors, add a 4th column <b>Supervisor Phone</b> (the phone number of their VBDC Supervisor). Optional 5th column <b>GP Name</b> for supervisors (if empty, the GP name is taken from the designation text after the first hyphen, like SUPERVISOR-Talgachhari-II). Designation must contain: Surveyor (or VST), Supervisor, GP Level Nodal, Block Level Dealing, or Block Level Nodal.</p>
+  <p class="mu">Everyone except surveyors gets a login: <b>ID = phone number, starting password = ${DEFPW}</b>. Ask them to change it in the Password tab.</p>
+  <button id="smp" class="g full" style="margin-bottom:8px">Download sample Excel file</button>
+  <select id="mode" class="full" style="margin-bottom:8px"><option value="add">Add new / update existing</option><option value="rep">Replace all (delete everyone not in the file, except me)</option></select>
+  <input type="file" id="fx" class="full" accept=".xlsx,.xls,.csv"><p class="${umsg.startsWith('✓')?'ok':'bad'}">${esc(umsg)}</p>
+  <button id="mk" class="g full">Create missing logins</button></div>
+  <div class="card"><h2>All users</h2><p class="mu">${cnt}</p><div class="scroll" style="max-height:420px;overflow-y:auto"><table>
+  ${list.map(u=>{const s=cfg.users.find(x=>x.phone===u.sup);return `<tr><td>${esc(u.name)}<div class="mu">${esc(u.desig||ROLES[u.role])}</div></td><td>${u.phone}${u.role==='sur'?`<div class="mu">${s?esc(s.name):'⚠ no supervisor'}</div>`:''}</td><td><button class="s" style="color:var(--ac)" data-e="${u.phone}">Edit</button>${u.phone===me.phone?'':` <button class="s" data-d="${u.phone}">Remove</button>`}</td></tr>`}).join('')}</table></div></div>`;
+}
+const roleOf=d=>{d=d.toLowerCase();return /surveyor|\bvst\b/.test(d)?'sur':/supervisor/.test(d)?'bst':/dealing/.test(d)?'dealing':/gp/.test(d)?'gp':/nodal|block/.test(d)?'block':''};
+async function makeLogins(list){
+  const app2=initializeApp(firebaseConfig,'s'+Date.now()),sa=getAuth(app2);let made=0,fail=0;
+  for(const r of list){try{await createUserWithEmailAndPassword(sa,r.phone+DOM,DEFPW);made++;await signOut(sa)}catch(e){if(e.code!=='auth/email-already-in-use')fail++}}
+  await deleteApp(app2);return{made,fail};
+}
+function bindUsers(){
+  const g=id=>document.getElementById(id),say=t=>{umsg=t;draw()};
+  const upd=()=>{const r=g('ur').value;g('us').style.display=r==='sur'?'':'none';g('ug').style.display=r==='bst'?'':'none'};g('ur').onchange=upd;upd();
+  const err=t=>{g('uf').className='bad';g('uf').textContent=t};
+  document.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{editU=b.dataset.e;fmsg='';draw();window.scrollTo(0,0)});
+  if(g('ucn'))g('ucn').onclick=()=>{editU=null;fmsg='';draw()};
+  g('usv').onclick=async()=>{
+    const name=g('un').value.trim(),ph=g('up').value.replace(/\D/g,'').slice(-10),role=editU&&editU===me.phone?'block':g('ur').value,old=cfg.users.find(u=>u.phone===ph);
+    if(!name||ph.length!==10)return err('Enter a name and a 10-digit phone number.');
+    if(role==='sur'&&!g('us').value)return err('Choose the supervisor for this surveyor.');
+    if(!editU&&old)return err('This phone number already exists. Tap Edit beside it to change it.');
+    const rec={role,name,desig:old&&old.role===role&&old.desig?old.desig:ROLES[role],phone:ph};
+    if(role==='sur')rec.sup=g('us').value;if(role==='bst'&&g('ug').value.trim())rec.gp=g('ug').value.trim();
+    try{await setDoc(doc(fdb,'users',ph),rec);let x='';if(role!=='sur'){const r=await makeLogins([rec]);if(r.made)x=' Login created (password '+DEFPW+').'}editU=null;fmsg='✓ Saved.'+x;draw()}
+    catch(e){err('Could not save ('+(e.code||'error')+').')}};
+  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{try{await deleteDoc(doc(fdb,'users',b.dataset.d));say('✓ User removed. They can no longer see any data.')}catch(e){say('Could not remove this user.')}});
+  g('mk').onclick=async()=>{say('Working…');const r=await makeLogins(cfg.users.filter(u=>u.role!=='sur'));say(`✓ ${r.made} new logins created.`+(r.fail?` ${r.fail} failed.`:''))};
+  g('smp').onclick=()=>{const ws=XLSX.utils.aoa_to_sheet([['Name','Designation','Phone Number','Supervisor Phone'],['Ramesh Das','VBDC Supervisor','9000000011',''],['Sita Roy','VBDC Surveyor','8000000001','9000000011'],['Block Dealing Name','Block Level Dealing Official','9000000004',''],['GP Nodal Name','GP Level Nodal Officer','9000000003','']]);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Users');XLSX.writeFile(wb,'users-sample.xlsx')};
+  g('fx').onchange=e=>{
+    const f=e.target.files[0];if(!f)return;
+    if(typeof XLSX==='undefined'){say('Excel reader could not load. Check the internet connection and retry.');return}
+    const mode=g('mode').value,r=new FileReader();
+    r.onload=async ev=>{try{
+      const wb=XLSX.read(ev.target.result,{type:'array'});
+      const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+      const pick=(o,keys)=>{for(const k in o)if(keys.includes(k.toLowerCase().replace(/[^a-z]/g,'')))return String(o[k]).trim();return''};
+      const dg=s=>String(s).replace(/\D/g,'').slice(-10);
+      const map=new Map();let skipped=0,nosup=0;
+      rows.forEach(o=>{
+        const name=pick(o,['name']),d=pick(o,['designation','role']),p=dg(pick(o,['phone','phonenumber','mobile','mobilenumber','mobileno','phoneno'])),role=roleOf(d);
+        const sup=dg(pick(o,['supervisorphone','supervisormobile','supervisor'])),gp=pick(o,['gpname','gp','grampanchayat','grampanchayatname']);
+        if(!name||p.length!==10||!role||p===me.phone){skipped++;return}
+        if(role==='sur'&&!sup)nosup++;
+        const rec={role,name,desig:d||ROLES[role],phone:p};if(role==='sur'&&sup)rec.sup=sup;if(role==='bst'&&gp)rec.gp=gp;
+        map.set(p,rec)});
+      say('Working…');
+      const ops=[];
+      if(mode==='rep')cfg.users.forEach(u=>{if(u.phone!==me.phone&&!map.has(u.phone))ops.push(['d',u.phone])});
+      map.forEach(r=>ops.push(['s',r]));
+      for(let i=0;i<ops.length;i+=400){const b=writeBatch(fdb);
+        ops.slice(i,i+400).forEach(o=>o[0]==='d'?b.delete(doc(fdb,'users',o[1])):b.set(doc(fdb,'users',o[1].phone),o[1]));await b.commit()}
+      const lg=await makeLogins([...map.values()].filter(x=>x.role!=='sur'));
+      say(`✓ ${map.size} users saved, ${skipped} rows skipped (missing name, bad phone or unknown designation). ${lg.made} new logins created.`+(lg.fail?` ${lg.fail} logins failed.`:'')+(nosup?` ${nosup} surveyors have no supervisor phone.`:''));
+    }catch(err){say('Could not read or save this file ('+(err.code||'error')+').')}};
+    r.readAsArrayBuffer(f);
+  };
+}
+
+// ---------- Dashboard settings (admin) ----------
+function formatView(){
+  const D=cfg.dash;
+  return `<div class="card"><h2>Dashboard settings</h2>
+  <label>Count column name<br><input id="fl" class="full" value="${esc(D.label)}"></label>
+  <div class="row" style="margin-top:8px"><label>Daily target (0 = none)<br><input id="fg" type="number" min="0" value="${D.target}"></label><label>Low average limit<br><input id="fa" type="number" min="1" value="${D.avgMin}"></label></div>
+  <p class="mu">The dashboard always shows 10 names per list. Choose the period start date on the Dashboard tab.</p>
+  <button id="sf" class="full" style="margin-top:12px">Save settings</button><p id="ok" class="ok"></p></div>`;
+}
+function bindFormat(){
+  document.getElementById('sf').onclick=()=>{
+    const g=id=>document.getElementById(id),D=cfg.dash;
+    D.label=g('fl').value.trim()||D.label;D.target=Math.max(0,+g('fg').value||0);D.avgMin=Math.max(1,+g('fa').value||20);
+    saveCfg();g('ok').textContent='Saved ✓';
+  };
+}
+draw();
+</script></body></html>
