@@ -48,7 +48,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--br);box-shadow:0 0 0 
 #sheet .seg{overflow-x:auto;scrollbar-width:none}#sheet .seg button{flex:0 0 auto;padding:9px 13px;white-space:nowrap}
 .ds{color:var(--mu);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tg span{display:inline-block;font-size:.68rem;font-weight:600;color:var(--br);background:var(--soft);padding:2px 8px;border-radius:99px;margin:5px 4px 0 0}
-.ac{display:flex;gap:6px}.ac button{width:38px;height:38px;border-radius:50%;background:var(--soft);color:var(--br);display:grid;place-items:center}
+.ac{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.ac button{width:36px;height:36px;border-radius:50%;background:var(--soft);color:var(--br);display:grid;place-items:center}
 svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;width:18px;height:18px}
 .bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:12;width:calc(100% - 28px);max-width:460px;background:var(--ink);color:var(--bg);border-radius:18px;padding:10px 10px 10px 18px;display:flex;align-items:center;gap:8px;box-shadow:0 14px 40px -10px rgba(0,0,0,.5);animation:up .25s}
 .bar span{flex:1;font-weight:600}.bar button{padding:10px 16px;border-radius:12px;font-weight:600}
@@ -99,7 +99,7 @@ const desOpts=(l,cur)=>{const v=(DS[l]||[]).slice();if(cur&&!v.includes(cur))v.p
 async function newDes(l,cb){const n=(prompt("New designation for "+l+":")||"").trim();if(!n){cb("");return}if(!DS[l].includes(n))DS[l].push(n);try{await DB.doc("designations/"+hid(l+n)).set({name:n,level:l})}catch(e){toast("Shown here, but could not be stored.")}cb(n)}
 const canon=s=>{s=String(s||"").trim();for(const l in ST){const m=ST[l].find(x=>x.toLowerCase()===s.toLowerCase());if(m)return[l,m]}return[null,s]};
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const I={ph:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',ch:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',cl:'<svg viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></svg>',ck:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>'};
+const I={ph:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',ch:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',cl:'<svg viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></svg>',ck:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',ct:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M18 8v8M14 12h8"/></svg>'};
 let LOCAL=0,DB=null,U=null,admin=false,off=[],sch=[],level="All",cs="",sel=new Set(),got=0,tgt=null,fpMode="";
 const H=s=>Array.from(String(s)).reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 const hid=s=>"s"+H(s),fixp=s=>{s=String(s||"").replace(/\D/g,"");return s.length===10?"91"+s:s};
@@ -145,38 +145,83 @@ function render(){
   const counts=Object.fromEntries(LV.map(l=>[l,b.filter(o=>o.level===l).length]));
   $("dashboard").innerHTML=`<div class="stat"><b>${b.length}</b><span>Total officials</span></div><div class="stat"><b>${counts[LV[0]]}</b><span>Block level</span></div><div class="stat"><b>${counts[LV[1]]+counts[LV[2]]}</b><span>GP + Departments</span></div>`;
   const nameSel=$("fnfilter"),oldName=nameSel.value;
-  nameSel.innerHTML='<option value="">All names (A–Z)</option>'+uniq(b.map(o=>o.name)).sort((a,b)=>a.localeCompare(b)).map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
+  const levelNames=b.filter(o=>level==="All"||o.level===level).map(o=>o.name);
+  nameSel.innerHTML='<option value="">All names (A–Z)</option>'+uniq(levelNames).sort((a,b)=>a.localeCompare(b)).map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
   if([...nameSel.options].some(x=>x.value===oldName))nameSel.value=oldName;
   $("sub").textContent=cs?cs:LOCAL?"Saved on this phone · "+off.length+" officials":"Ramnagar-I Block · "+off.length+" officials";
   $("chips").innerHTML=[""].concat(sch).map(x=>`<button class="chip ${x===cs?"on":""}" data-sc="${esc(x)}">${x?esc(x):"All schemes"}<i>${off.filter(o=>!x||sch_of(o).includes(x)).length}</i></button>`).join("");
   $("seg").innerHTML=[["All","All"],[LV[0],"Block"],[LV[1],"Gram Panchayat"],[LV[2],"Line Dept"]].map(([v,l])=>`<button class="${v===level?"on":""}" data-lv="${v}"><b>${b.filter(o=>v==="All"||o.level===v).length}</b>${l}</button>`).join("");
+  // Strictly scope the view and its filter choices to the selected level.
   const lb=b.filter(o=>level==="All"||o.level===level);
   const fill=(id,lab,v)=>{const s=$(id),c=s.value;s.innerHTML=`<option value="">${lab}</option>`+v.map(x=>`<option>${esc(x)}</option>`).join("");if(v.includes(c))s.value=c};
-  fill("fd","All designations",uniq(lb.map(o=>o.designation).concat(level==="All"?Object.values(DS).flat():(DS[level]||[]))));fill("fo","All offices",uniq(lb.map(o=>o.office).concat(level==="All"?Object.values(ST).flat():(ST[level]||[]))));
+  const levelDesignations=level==="All"?Object.values(DS).flat():[
+    ...(DS[level]||[]), ...lb.map(o=>o.designation)
+  ];
+  const levelOffices=level==="All"?Object.values(ST).flat():[
+    ...(ST[level]||[]), ...lb.map(o=>o.office)
+  ];
+  fill("fd","All designations",uniq(levelDesignations));
+  fill("fo","All offices",level===LV[0]?["Ramnagar-I Development Block"]:uniq(levelOffices));
   const d=$("fd").value,f=$("fo").value,q=$("q").value.toLowerCase(),nm=$("fnfilter").value;
-  const s=lb.filter(o=>(!d||o.designation===d)&&(!f||o.office===f)&&(!nm||o.name===nm)&&(!q||((o.name+" "+phones_of(o).join(" ")).toLowerCase().includes(q))));
+  const s=lb.filter(o=>(!d||o.designation===d)&&(!f||(level===LV[0]||o.office===f))&&(!nm||o.name===nm)&&(!q||((o.name+" "+phones_of(o).join(" ")).toLowerCase().includes(q))));
   window.shownList=s;
-  const g={};s.forEach(o=>(g[o.office]=g[o.office]||[]).push(o));
+  const g={};s.forEach(o=>{
+    if(level!=="All"&&o.level!==level)return;
+    const office=level===LV[0]?"Ramnagar-I Development Block":o.office;
+    (g[office]=g[office]||[]).push(o);
+  });
   let n=0;
-  $("list").innerHTML=s.length?`<div class="lh"><span>${s.length} officials</span><button data-act="all">${s.every(o=>sel.has(o.id))?"Deselect all":"Select all"}</button></div>`+Object.keys(g).sort().map(k=>`<div class="og">${esc(k)}</div>`+g[k].sort((a,b)=>a.name.localeCompare(b.name)).map(o=>{const on=sel.has(o.id);const lc=o.level===LV[0]?"level-block":o.level===LV[1]?"level-gp":"level-line";return`<div class="card ${lc} ${on?"on":""}" style="animation-delay:${Math.min(n++,10)*25}ms"><button class="av" data-act="tog" data-id="${o.id}" style="background:hsl(${H(o.name)%360} 42% 40%)">${on?I.ck:esc(ini(o.name))}</button><div class="inf">${admin?`<button class="nm" data-act="edit" data-id="${o.id}">${esc(o.name)}</button>`:`<div class="nm">${esc(o.name)}</div>`}<div class="ds">${esc(o.designation)} · ${esc(o.office)}</div><div class="phone-extra">${esc(phone_text(o))}</div><div class="tg">${sch_of(o).map(x=>`<span>${esc(x)}</span>`).join("")}</div></div><div class="ac"><button data-act="call" data-id="${o.id}" aria-label="Call">${I.ph}</button><button data-act="chat" data-id="${o.id}" aria-label="WhatsApp">${I.ch}</button><button data-act="file" data-id="${o.id}" aria-label="Send file">${I.cl}</button></div></div>`}).join("")).join(""):`<div class="empty"><b>No officials here yet</b>${admin?'Tap Manage to add or import from Excel.':'The admin has not added anyone to this view.'}</div>`;
+  $("list").innerHTML=s.length?`<div class="lh"><span>${s.length} officials</span><button data-act="all">${s.every(o=>sel.has(o.id))?"Deselect all":"Select all"}</button></div>`+Object.keys(g).sort().map(k=>`<div class="og">${esc(k)}</div>`+g[k].sort((a,b)=>a.name.localeCompare(b.name)).map(o=>{const on=sel.has(o.id);const lc=o.level===LV[0]?"level-block":o.level===LV[1]?"level-gp":"level-line";return`<div class="card ${lc} ${on?"on":""}" style="animation-delay:${Math.min(n++,10)*25}ms"><button class="av" data-act="tog" data-id="${o.id}" style="background:hsl(${H(o.name)%360} 42% 40%)">${on?I.ck:esc(ini(o.name))}</button><div class="inf">${admin?`<button class="nm" data-act="edit" data-id="${o.id}">${esc(o.name)}</button>`:`<div class="nm">${esc(o.name)}</div>`}<div class="ds">${esc(o.designation)} · ${esc(o.office)}</div><div class="phone-extra">${esc(phone_text(o))}</div><div class="tg">${sch_of(o).map(x=>`<span>${esc(x)}</span>`).join("")}</div></div><div class="ac"><button data-act="call" data-id="${o.id}" aria-label="Call">${I.ph}</button><button data-act="contact" data-id="${o.id}" aria-label="Save contact" title="Save contact">${I.ct}</button><button data-act="chat" data-id="${o.id}" aria-label="WhatsApp">${I.ch}</button><button data-act="file" data-id="${o.id}" aria-label="Send file">${I.cl}</button></div></div>`}).join("")).join(""):`<div class="empty"><b>No officials here yet</b>${admin?'Tap Manage to add or import from Excel.':'The admin has not added anyone to this view.'}</div>`;
   $("bar").innerHTML=sel.size?`<div class="bar"><span>${sel.size} selected</span><button class="x" data-act="clr">Clear</button>${admin?'<button class="x" data-act="asg">Scheme</button>':""}<button class="go" data-act="bulk">Send</button></div>`:"";
 }
 $("q").oninput=render;$("fnfilter").onchange=render;$("fd").onchange=$("fo").onchange=render;
 document.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;const D=b.dataset,a=D.act,o=D.id&&off.find(x=>x.id===D.id);
   if(D.sc!==undefined&&b.classList.contains("chip")){cs=D.sc;$("fd").value="";$("fo").value="";return render()}
-  if(D.lv){level=D.lv;$("fd").value="";$("fo").value="";return render()}
+  if(D.lv){
+    level=D.lv;
+    $("fd").value="";
+    $("fo").value="";
+    $("fnfilter").value="";
+    $("q").value="";
+    return render();
+  }
   if(a==="tog"){sel.has(D.id)?sel.delete(D.id):sel.add(D.id);render()}
   else if(a==="all"){const all=window.shownList.every(x=>sel.has(x.id));window.shownList.forEach(x=>all?sel.delete(x.id):sel.add(x.id));render()}
   else if(a==="clr"){sel.clear();render()}
   else if(a==="chat")wa(o,"");
-  else if(a==="call"){wa(o,"");toast("Chat opened. Tap the call icon in WhatsApp.")}
+  else if(a==="call")dialOfficial(o);
+  else if(a==="contact")saveContact(o)
   else if(a==="file"){tgt=o;fpMode="one";$("fp").click()}
   else if(a==="bulk")bulk();
   else if(a==="asg")manage("sel");
   else if(a==="edit"&&o)editOff(o);
 });
 const wa=(o,t)=>{const p=phones_of(o)[0]||fixp(o.phone);if(p)window.open("https://wa.me/"+p+(t?"?text="+encodeURIComponent(t):""),"_blank","noopener")};
+function dialOfficial(o){
+  const ps=phones_of(o);
+  if(!ps.length){toast("No valid phone number saved for this official.");return}
+  if(ps.length===1){location.href="tel:"+ps[0];return}
+  sheet(`<h2>Call ${esc(o.name)}</h2><p>Select the number to call.</p><div class="g">${ps.map((p,i)=>`<button class="btn" data-dial="${p}">${i===0?"Main number":("Additional number "+(i+1))} · ${p}</button>`).join("")}</div><div class="fx"><button class="btn" id="dialCancel">Cancel</button></div>`);
+  document.querySelectorAll("[data-dial]").forEach(b=>b.onclick=()=>{const p=b.dataset.dial;closeS();location.href="tel:"+p});
+  $("dialCancel").onclick=closeS;
+}
+function vcardEscape(v){return String(v||"").replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\\;")}
+async function saveContact(o){
+  const ps=phones_of(o);
+  if(!ps.length){toast("No valid phone number saved for this official.");return}
+  const lines=["BEGIN:VCARD","VERSION:3.0","N:"+vcardEscape(o.name)+";;;;","FN:"+vcardEscape(o.name),...ps.map(p=>"TEL;TYPE=CELL:"+p)];
+  if(o.designation)lines.push("TITLE:"+vcardEscape(o.designation));
+  if(o.office)lines.push("ORG:"+vcardEscape(o.office));
+  lines.push("END:VCARD");
+  const blob=new Blob([lines.join("\r\n")],{type:"text/vcard;charset=utf-8"});
+  const file=new File([blob],(String(o.name||"official").replace(/[^a-z0-9_-]/gi,"_")||"official")+".vcf",{type:"text/vcard"});
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Save "+o.name+" contact"});return}
+  }catch(e){if(e&&e.name==="AbortError")return}
+  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);
+  toast("Contact file downloaded. Open it and choose Save to Contacts.");
+}
 async function share(o,t,fl){
   try{if(fl.length&&navigator.canShare&&navigator.canShare({files:fl})){toast("Choose WhatsApp, then "+o.name);await navigator.share({files:fl,text:t||undefined});return}}catch(e){if(e&&e.name==="AbortError")return}
   wa(o,t);if(fl.length)toast("Attach the file in the chat with the + button.");
@@ -195,7 +240,7 @@ function step(){
   if(bi>=bq.length){sheet(`<h2>All done</h2><p>You went through ${bq.length} officials.</p><div class="fx"><button class="btn p" id="bd">Close</button></div>`);$("bd").onclick=()=>{sel.clear();closeS();render()};return}
   const o=bq[bi];
   sheet(`<p>${bi+1} of ${bq.length}</p><h2>${esc(o.name)}</h2><p>${esc(o.designation)} · ${esc(o.office)}<br>+${esc(o.phone)}</p><div class="fx"><button class="btn p" id="s1">${bf.length?"Share file in WhatsApp":"Open WhatsApp chat"}</button><button class="btn" id="s2">Call</button></div><div class="fx"><button class="btn" id="s3">Next</button><button class="btn" id="s4">Stop</button></div>`);
-  $("s1").onclick=()=>bf.length?share(o,bt,bf):wa(o,bt);$("s2").onclick=()=>{wa(o,"");toast("Tap the call icon in WhatsApp.")};
+  $("s1").onclick=()=>bf.length?share(o,bt,bf):wa(o,bt);$("s2").onclick=()=>dialOfficial(o);
   $("s3").onclick=()=>{bi++;step()};$("s4").onclick=closeS;
 }
 
