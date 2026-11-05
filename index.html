@@ -198,9 +198,17 @@ document.addEventListener("click",e=>{
   else if(a==="edit"&&o)editOff(o);
 });
 const wa=(o,t)=>{const p=phones_of(o)[0]||fixp(o.phone);if(p)window.open("https://wa.me/"+p+(t?"?text="+encodeURIComponent(t):""),"_blank","noopener")};
+function dialNumber(p){
+  // Stored numbers are normalised for WhatsApp with India's 91 country code.
+  // The Android dialler should receive the local 10-digit mobile number.
+  let n=String(p||"").replace(/\\D/g,"");
+  if(n.length===12&&n.startsWith("91"))n=n.slice(2);
+  if(n.length===11&&n.startsWith("0"))n=n.slice(1);
+  return n;
+}
 function dialOfficial(o){
-  const ps=phones_of(o);
-  if(!ps.length){toast("No valid phone number saved for this official.");return}
+  const ps=phones_of(o).map(dialNumber).filter(p=>p.length===10);
+  if(!ps.length){toast("No valid 10-digit phone number saved for this official.");return}
   if(ps.length===1){location.href="tel:"+ps[0];return}
   sheet(`<h2>Call ${esc(o.name)}</h2><p>Select the number to call.</p><div class="g">${ps.map((p,i)=>`<button class="btn" data-dial="${p}">${i===0?"Main number":("Additional number "+(i+1))} · ${p}</button>`).join("")}</div><div class="fx"><button class="btn" id="dialCancel">Cancel</button></div>`);
   document.querySelectorAll("[data-dial]").forEach(b=>b.onclick=()=>{const p=b.dataset.dial;closeS();location.href="tel:"+p});
@@ -210,7 +218,11 @@ function vcardEscape(v){return String(v||"").replace(/\\/g,"\\\\").replace(/\n/g
 async function saveContact(o){
   const ps=phones_of(o);
   if(!ps.length){toast("No valid phone number saved for this official.");return}
-  const lines=["BEGIN:VCARD","VERSION:3.0","N:"+vcardEscape(o.name)+";;;;","FN:"+vcardEscape(o.name),...ps.map(p=>"TEL;TYPE=CELL:"+p)];
+  // Put designation and office directly beside the contact name in the
+  // Contacts display name, while retaining them as separate vCard fields too.
+  const contactLabel=String(o.name||"").trim()+" ("+
+    [o.designation,o.office].map(x=>String(x||"").trim()).filter(Boolean).join(", ")+")";
+  const lines=["BEGIN:VCARD","VERSION:3.0","N:"+vcardEscape(o.name)+";;;;","FN:"+vcardEscape(contactLabel),...ps.map(p=>"TEL;TYPE=CELL:"+p)];
   if(o.designation)lines.push("TITLE:"+vcardEscape(o.designation));
   if(o.office)lines.push("ORG:"+vcardEscape(o.office));
   lines.push("END:VCARD");
